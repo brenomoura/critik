@@ -15,6 +15,7 @@ const Discussions = () => {
     const discussions: IProductDiscussion[] = []
     return (
         <div>
+            Discussions
             {discussions.map((productDiscussion) => (
                 <ProductDiscussion productDiscussion={productDiscussion} />
             ))}

@@ -13,6 +13,7 @@ const FeaturedProductList = () => {
     const featuredProductList: IProductItem[] = []
     return (
         <div>
+            FeaturedProductList
             <SortingOptionsBar />
             {featuredProductList.map((productItem) => (
                 <ProductItem product={productItem} />
