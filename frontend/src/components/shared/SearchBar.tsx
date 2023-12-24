@@ -152,7 +152,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, marginBottom: "4pt" }}>
       <AppBar position="static" sx={{ backgroundColor: "#2b3137" }}>
         <Toolbar>
           <DonutSmallSharpIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
