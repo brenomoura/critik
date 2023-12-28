@@ -9,6 +9,10 @@ import {
     Avatar,
     useMantineTheme,
     rem,
+    Stack,
+    Container,
+    SimpleGrid,
+    Grid
 } from '@mantine/core';
 import { Chat } from '@phosphor-icons/react'
 import classes from './Discussions.module.css';
@@ -80,37 +84,47 @@ const discussions: IProductDiscussion[] = [
 const ProductDiscussionItem = (discussionItem: any) => {
     const theme = useMantineTheme();
     const productDiscussion = discussionItem.productDiscussion
-    
+
     return (
         <Card withBorder radius="md" className={classes.card}>
-
-            <Text className={classes.title} fw={500} component="a">
-                {productDiscussion.topic_title}
-            </Text>
-
-            <Text fz="sm" c="dimmed" lineClamp={4}>
-                {productDiscussion.topic_content_shortened}
-            </Text>
-
-            <Group justify="space-between" className={classes.footer}>
-                <Center>
+            <Grid>
+                <Grid.Col span={2}>
                     <Avatar
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-                        size={24}
+                        src={productDiscussion.product_avatar}
+                        size={100}
                         radius="xl"
                         mr="xs"
                     />
-                    <Text fz="sm" inline>
-                    {productDiscussion.topic_creator_username}
-                    </Text>
-                </Center>
-
-                <Group gap={8} mr={0}>
-                    <ActionIcon className={classes.action}>
-                        <Chat style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
-                    </ActionIcon>
-                </Group>
-            </Group>
+                </Grid.Col>
+                <Grid.Col span={10}>
+                    <div>
+                        <Text fw={500}>
+                            {productDiscussion.topic_title}
+                        </Text>
+                        <Text fz="sm" c="dimmed" lineClamp={4}>
+                            {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
+                        </Text>
+                        <Group justify="space-between" className={classes.footer}>
+                            <Center>
+                                <Avatar
+                                    src={productDiscussion.product_avatar}
+                                    size={24}
+                                    radius="xl"
+                                    mr="xs"
+                                />
+                                <Text fz="sm">
+                                    {productDiscussion.topic_creator_username}
+                                </Text>
+                            </Center>
+                            <Group gap={8} mr={0}>
+                                <Badge color="gray" size={'xl'} variant="transparent" radius={'md'} rightSection={<Chat size={28} />}>
+                                    {productDiscussion.topic_posts_count}
+                                </Badge>
+                            </Group>
+                        </Group>
+                    </div>
+                </Grid.Col>
+            </Grid>
         </Card>
     );
 }
@@ -118,11 +132,13 @@ const ProductDiscussionItem = (discussionItem: any) => {
 const Discussions = () => {
 
     return (
-        <div>
-            {discussions.map((discussionItem) => (
-                <ProductDiscussionItem productDiscussion={discussionItem} />
-            ))}
-        </div>
+        <Container fluid>
+            <Stack gap="sm">
+                {discussions.map((discussionItem) => (
+                    <ProductDiscussionItem productDiscussion={discussionItem} />
+                ))}
+            </Stack>
+        </Container>
     );
 }
 
