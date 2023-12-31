@@ -11,8 +11,7 @@ const Home = () => {
             <Container fluid mt={20}>
                 <Grid>
                     <Grid.Col span={6}><Discussions /></Grid.Col>
-                    <Grid.Col span={6}><Discussions /></Grid.Col>
-                    {/* <Grid.Col span={6}><FeaturedProductList /></Grid.Col> */}
+                    <Grid.Col span={6}><FeaturedProductList /></Grid.Col>
                 </Grid>
             </Container>
         </div>

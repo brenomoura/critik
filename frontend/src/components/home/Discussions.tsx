@@ -1,6 +1,5 @@
 import {
     Card,
-    Tooltip,
     Text,
     Badge,
     Group,
@@ -9,9 +8,8 @@ import {
     useMantineTheme,
     Stack,
     Container,
-    SimpleGrid,
     Grid,
-    HoverCard
+    HoverCard,
 } from '@mantine/core';
 import { Chat } from '@phosphor-icons/react'
 import classes from './Discussions.module.css';
@@ -31,6 +29,10 @@ interface IProductDiscussion {
     last_post_datetime: string
     last_post_username: string
     last_post_user_avatar: string
+}
+
+interface ProductDiscussionItemProps {
+    productDiscussion: IProductDiscussion;
 }
 
 const discussions: IProductDiscussion[] = [
@@ -106,9 +108,8 @@ const discussions: IProductDiscussion[] = [
     }
 ]
 
-const ProductDiscussionItem = (discussionItem: any) => {
+const ProductDiscussionItem: React.FC<ProductDiscussionItemProps> = ({ productDiscussion }) => {
     const theme = useMantineTheme();
-    const productDiscussion = discussionItem.productDiscussion
 
     return (
         <Card withBorder radius="md" className={classes.card}>
@@ -125,17 +126,17 @@ const ProductDiscussionItem = (discussionItem: any) => {
                                 />
                             </HoverCard.Target>
                             <HoverCard.Dropdown>
-                                    <Group justify="space-between">
-                                        <Avatar
-                                            src={productDiscussion.product_avatar}
-                                            size={70}
-                                            radius="xl"
-                                            mr="xs"
-                                        />
-                                        <Text fw={700}>
-                                            {productDiscussion.product_name}
-                                        </Text>
-                                    </Group>
+                                <Group justify="space-between">
+                                    <Avatar
+                                        src={productDiscussion.product_avatar}
+                                        size={70}
+                                        radius="xl"
+                                        mr="xs"
+                                    />
+                                    <Text fw={700}>
+                                        {productDiscussion.product_name}
+                                    </Text>
+                                </Group>
                             </HoverCard.Dropdown>
                         </HoverCard>
                     </Center>
@@ -204,8 +205,14 @@ const Discussions = () => {
     return (
         <Container fluid>
             <Stack gap="sm">
+                <Center>
+                    <Text fw={700} size="xl">
+                        Discussions
+                    </Text>
+                </Center>
+
                 {discussions.map((discussionItem) => (
-                    <ProductDiscussionItem productDiscussion={discussionItem} />
+                    <ProductDiscussionItem key={discussionItem.id} productDiscussion={discussionItem} />
                 ))}
             </Stack>
         </Container>
