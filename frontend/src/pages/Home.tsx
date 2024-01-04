@@ -39,7 +39,7 @@ const MobileView = () => {
 
 const Home = () => {
     const isMobile = useMediaQuery(`(max-width: ${em(1150)})`);
-    const mainComponent = isMobile ? MobileView() : DesktopView()
+    const mainComponent = isMobile ? <MobileView /> : <DesktopView />
 
     return (
         <div>
