@@ -14,6 +14,7 @@ import {
 import { Chat } from '@phosphor-icons/react'
 import classes from './Discussions.module.css';
 import moment from 'moment'
+import Title from '../shared/Title';
 
 
 interface IProductDiscussion {
@@ -34,6 +35,11 @@ interface IProductDiscussion {
 interface ProductDiscussionItemProps {
     productDiscussion: IProductDiscussion;
 }
+
+interface DiscussionProps {
+    isMobile: boolean;
+}
+
 
 const discussions: IProductDiscussion[] = [
     {
@@ -200,23 +206,17 @@ const ProductDiscussionItem: React.FC<ProductDiscussionItemProps> = ({ productDi
     );
 }
 
-const Discussions = () => {
-
+const Discussions: React.FC<DiscussionProps> = ({ isMobile }) => {
     return (
         <Container fluid>
             <Stack gap="sm">
-                <Center>
-                    <Text fw={700} size="xl">
-                        Discussions
-                    </Text>
-                </Center>
-
+                <Title label="Discussions" isMobile={isMobile} />
                 {discussions.map((discussionItem) => (
                     <ProductDiscussionItem key={discussionItem.id} productDiscussion={discussionItem} />
                 ))}
             </Stack>
         </Container>
-    );
+    )
 }
 
 export default Discussions

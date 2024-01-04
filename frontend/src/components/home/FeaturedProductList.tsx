@@ -13,12 +13,16 @@ import {
 import IProductItem from "../../types/productItemInterface"
 import { useState } from "react"
 import { Fire, AlignBottom, Star } from '@phosphor-icons/react'
+import Title from "../shared/Title"
+
+interface FeaturedProductListprops {
+    isMobile: boolean
+}
 
 
-
-
-const FeaturedProductList = () => {
+const FeaturedProductList: React.FC<FeaturedProductListprops> = ({ isMobile }) => {
     const [section, setSection] = useState<'feature_products' | 'top' | 'new'>('feature_products');
+    const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year' | 'all_time'>('today');
     const featuredProductList: IProductItem[] = [
         {
             "id": 5558,
@@ -112,14 +116,30 @@ const FeaturedProductList = () => {
         </Table.Tr>
     ));
 
+    const topPeriodSegmentControl = () => {
+        if (section === 'top') {
+            return (
+                <SegmentedControl
+                    value={period}
+                    onChange={(value: any) => setPeriod(value)}
+                    data={[
+                        { label: 'Today', value: 'today' },
+                        { label: 'This Week', value: 'week' },
+                        { label: 'This Month', value: 'month' },
+                        { label: 'This Year', value: 'year' },
+                        { label: 'All Time', value: 'all_time' },
+                    ]}
+                />
+            )
+        }
+        return null
+    }
+
+
     return (
         <Container fluid>
             <Stack gap="sm">
-                <Center>
-                    <Text fw={700} size="xl">
-                        Featured
-                    </Text>
-                </Center>
+                <Title label="Featured" isMobile={isMobile} />
                 <SegmentedControl
                     value={section}
                     onChange={(value: any) => setSection(value)}
@@ -155,6 +175,7 @@ const FeaturedProductList = () => {
                         },
                     ]}
                 />
+                {topPeriodSegmentControl()}
             </Stack>
             <Table>
                 <Table verticalSpacing="md">
