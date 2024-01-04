@@ -8,12 +8,9 @@ import {
     Avatar,
     Table,
     Group,
-    ActionIcon,
-    Menu,
     Badge
 } from "@mantine/core"
 import IProductItem from "../../types/productItemInterface"
-import ProductItem from "../shared/ProductItem"
 import { useState } from "react"
 import { Fire, AlignBottom, Star } from '@phosphor-icons/react'
 
@@ -95,14 +92,6 @@ const FeaturedProductList = () => {
         }
     ]
 
-    const productDescriptionParser = (productDescription: string) => {
-        const max_length = 100
-        if (productDescription.length > max_length) {
-            return `${productDescription}`.substring(0, max_length) + '...'
-        }
-        return productDescription
-    }
-
     const rows = featuredProductList.map((featuredProductItem) => (
         <Table.Tr key={featuredProductItem.id}>
             <Table.Td>
@@ -111,9 +100,6 @@ const FeaturedProductList = () => {
                     <div>
                         <Text fz="xl" fw={700}>
                             {featuredProductItem.name}
-                        </Text>
-                        <Text c="dimmed" fz="xs">
-                            {productDescriptionParser(featuredProductItem.description)}
                         </Text>
                     </div>
                 </Group>
@@ -150,15 +136,6 @@ const FeaturedProductList = () => {
                             ),
                         },
                         {
-                            value: 'top',
-                            label: (
-                                <Center style={{ gap: 10 }}>
-                                    <AlignBottom style={{ width: rem(16), height: rem(16) }} />
-                                    <span>Top</span>
-                                </Center>
-                            ),
-                        },
-                        {
                             value: 'new',
                             label: (
                                 <Center style={{ gap: 10 }}>
@@ -167,14 +144,23 @@ const FeaturedProductList = () => {
                                 </Center>
                             ),
                         },
+                        {
+                            value: 'top',
+                            label: (
+                                <Center style={{ gap: 10 }}>
+                                    <AlignBottom style={{ width: rem(16), height: rem(16) }} />
+                                    <span>Top</span>
+                                </Center>
+                            ),
+                        },
                     ]}
                 />
             </Stack>
-            <Table.ScrollContainer minWidth={800}>
+            <Table>
                 <Table verticalSpacing="md">
                     <Table.Tbody>{rows}</Table.Tbody>
                 </Table>
-            </Table.ScrollContainer>
+            </Table>
         </Container>
     )
 }

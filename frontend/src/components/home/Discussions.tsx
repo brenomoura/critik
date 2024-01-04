@@ -149,7 +149,7 @@ const ProductDiscussionItem: React.FC<ProductDiscussionItemProps> = ({ productDi
                         {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
                     </Text>
                     <Stack
-                        h={70}
+                        // h={70}
                         justify="flex-end"
                     >
                         <Group justify="space-between" className={classes.footer}>
