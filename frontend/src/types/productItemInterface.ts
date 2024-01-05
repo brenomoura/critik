@@ -3,7 +3,8 @@ interface IProductItem {
     name: string,
     score: number,
     description: string
-    avatar: string
+    avatar: string,
+    category: string
 }
 
 export default IProductItem

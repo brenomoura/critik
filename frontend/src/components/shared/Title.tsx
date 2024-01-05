@@ -5,7 +5,7 @@ interface TitleProps {
     isMobile: boolean;
 }
 
-const Title: React.FC<TitleProps> = ({ label, isMobile }) => {
+const Title = ({ label, isMobile }: TitleProps) => {
     if (isMobile) {
         return null
     }

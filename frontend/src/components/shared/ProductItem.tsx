@@ -1,6 +1,6 @@
 import IProductItem from "../../types/productItemInterface"
 
-const ProductItem: React.FC<{ product: IProductItem }> = ({ product }) => {
+const ProductItem = ({ product }: { product: IProductItem }) => {
     return (
         <div>{product.id}</div>
     )

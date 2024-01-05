@@ -114,8 +114,7 @@ const discussions: IProductDiscussion[] = [
     }
 ]
 
-const ProductDiscussionItem: React.FC<ProductDiscussionItemProps> = ({ productDiscussion }) => {
-    const theme = useMantineTheme();
+const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps) => {
 
     return (
         <Card withBorder radius="md" className={classes.card}>
@@ -206,7 +205,7 @@ const ProductDiscussionItem: React.FC<ProductDiscussionItemProps> = ({ productDi
     );
 }
 
-const Discussions: React.FC<DiscussionProps> = ({ isMobile }) => {
+const Discussions = ({ isMobile }: DiscussionProps) => {
     return (
         <Container fluid>
             <Stack gap="sm">
