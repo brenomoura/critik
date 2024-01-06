@@ -11,10 +11,12 @@ interface VideosModalProps {
 
 function VideosModal({ opened, setOpened, videosUrls }: VideosModalProps) {
     const TRANSITION_DURATION = 200;
+    const [embla, setEmbla] = useState<Embla | null>(null);
+
 
     const slides = videosUrls.map((url) => (
         <Carousel.Slide key={url}>
-            <video width="750" height="500" controls>
+            <video width="1024" height="768" controls>
                 <source src={url} type="video/mp4" />
             </video>
         </Carousel.Slide>
@@ -26,9 +28,9 @@ function VideosModal({ opened, setOpened, videosUrls }: VideosModalProps) {
             transitionProps={{ duration: TRANSITION_DURATION }}
             withCloseButton={false}
             onClose={() => setOpened(false)}
-            size={1000}
+            size={1100}
         >
-            <Carousel loop>
+            <Carousel loop getEmblaApi={setEmbla}>
                 {slides}
             </Carousel>
         </Modal>

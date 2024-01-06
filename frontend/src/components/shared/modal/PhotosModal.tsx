@@ -1,5 +1,6 @@
 import { Modal, Image } from '@mantine/core';
-import { Carousel } from '@mantine/carousel';
+import { Carousel, Embla } from '@mantine/carousel';
+import { useState } from 'react';
 
 interface PhotosModalProps {
     opened: boolean,
@@ -9,7 +10,7 @@ interface PhotosModalProps {
 
 function PhotosModal({ opened, setOpened, photosUrls }: PhotosModalProps) {
     const TRANSITION_DURATION = 200;
-    
+    const [embla, setEmbla] = useState<Embla | null>(null);
 
     const slides = photosUrls.map((url) => (
         <Carousel.Slide key={url}>
@@ -20,12 +21,11 @@ function PhotosModal({ opened, setOpened, photosUrls }: PhotosModalProps) {
     return (
         <Modal
             opened={opened}
-            transitionProps={{ duration: TRANSITION_DURATION }}
             withCloseButton={false}
+            transitionProps={{ duration: TRANSITION_DURATION }}
             onClose={() => setOpened(false)}
-            size={1000}
         >
-            <Carousel loop>
+            <Carousel loop getEmblaApi={setEmbla}>
                 {slides}
             </Carousel>
         </Modal>
