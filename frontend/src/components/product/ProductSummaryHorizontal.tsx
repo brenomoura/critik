@@ -16,9 +16,12 @@ import { Star, Images, Video } from '@phosphor-icons/react'
 import classes from './ProductSummaryHorizontal.module.css';
 import IProductItem from '../../types/productItemInterface';
 import { useMediaQuery } from '@mantine/hooks';
+import PhotosModal from '../shared/modal/PhotosModal';
+import { useState } from 'react';
+import VideosModal from '../shared/modal/VideosModal';
 
 
-const DesktopGridView = ({ product }: { product: IProductItem }) => {
+const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: { product: IProductItem, setPhotosModalOpened: any, setVideosModalOpened: any, videosCount: number, photosCount: number }) => {
     return (
         <Grid align="center" >
             <Grid.Col span="auto">
@@ -31,14 +34,18 @@ const DesktopGridView = ({ product }: { product: IProductItem }) => {
                     />
                     <Stack>
                         <Tooltip label='Click here to see the product photos' position='right' withArrow>
-                            <Badge leftSection={<Images style={{ width: rem(40), height: rem(40) }} />} py={57} px={27} color="gray" radius="xl">
-                                <Text>+99</Text>
-                            </Badge>
+                            <div style={{ cursor: 'pointer' }} onClick={() => (setPhotosModalOpened(true))}>
+                                <Badge leftSection={<Images style={{ width: rem(40), height: rem(40) }} />} py={57} px={27} color="gray" radius="xl">
+                                    <Text>{photosCount > 99 ? "+99" : photosCount}</Text>
+                                </Badge>
+                            </div>
                         </Tooltip>
                         <Tooltip label='Click here to see the product videos' position='right' withArrow>
-                            <Badge leftSection={<Video style={{ width: rem(40), height: rem(40) }} />} py={57} px={27} color="gray" radius="xl">
-                                <Text>+99</Text>
-                            </Badge>
+                            <div style={{ cursor: 'pointer' }} onClick={() => (setVideosModalOpened(true))}>
+                                <Badge leftSection={<Video style={{ width: rem(40), height: rem(40) }} />} py={57} px={27} color="gray" radius="xl">
+                                    <Text>{videosCount > 99 ? "+99" : videosCount}</Text>
+                                </Badge>
+                            </div>
                         </Tooltip>
                     </Stack>
                 </Center>
@@ -67,7 +74,8 @@ const DesktopGridView = ({ product }: { product: IProductItem }) => {
     )
 }
 
-const MobileGridView = ({ product }: { product: IProductItem }) => {
+const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: { product: IProductItem, setPhotosModalOpened: any, setVideosModalOpened: any, videosCount: number, photosCount: number }) => {
+
     return (
         <Stack>
             <SimpleGrid cols={2}>
@@ -80,17 +88,20 @@ const MobileGridView = ({ product }: { product: IProductItem }) => {
                     />
                     <Stack>
                         <Tooltip label='Click here to see the product photos' position='right' withArrow>
-                            <Badge leftSection={<Images style={{ width: rem(40), height: rem(40) }} />} py={47} px={17} color="gray" radius="lg">
-                                <Text>+99</Text>
-                            </Badge>
+                            <div style={{ cursor: 'pointer' }} onClick={() => (setPhotosModalOpened(true))}>
+                                <Badge leftSection={<Images style={{ width: rem(40), height: rem(40) }} />} py={47} px={17} color="gray" radius="lg">
+                                    <Text>{photosCount > 99 ? "+99" : photosCount}</Text>
+                                </Badge>
+                            </div>
                         </Tooltip>
                         <Tooltip label='Click here to see the product videos' position='right' withArrow>
-                            <Badge leftSection={<Video style={{ width: rem(40), height: rem(40) }} />} py={47} px={17} color="gray" radius="lg">
-                                <Text>+99</Text>
-                            </Badge>
+                            <div style={{ cursor: 'pointer' }} onClick={() => (setVideosModalOpened(true))}>
+                                <Badge leftSection={<Video style={{ width: rem(40), height: rem(40) }} />} py={47} px={17} color="gray" radius="lg">
+                                    <Text>{videosCount > 99 ? "+99" : videosCount}</Text>
+                                </Badge>
+                            </div>
                         </Tooltip>
                     </Stack>
-
                 </Center>
                 <Center>
                     <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
@@ -117,6 +128,9 @@ const MobileGridView = ({ product }: { product: IProductItem }) => {
 
 const ProductSummaryHorizontal = () => {
     const isMobile = useMediaQuery(`(max-width: ${em(1335)})`);
+    const [photosModalOpened, setPhotosModalOpened] = useState<true | false>(false);
+    const [videosModalOpened, setVideosModalOpened] = useState<true | false>(false);
+
     const product = {
         "id": 28848,
         "avatar": "https://picsum.photos/200/300",
@@ -125,12 +139,30 @@ const ProductSummaryHorizontal = () => {
         "score": 7.9,
         "category": "electronic"
     }
+    const productPhotosUrls = [
+        "https://picsum.photos/id/1/1000/1000",
+        "https://picsum.photos/id/2/1000/1000",
+        "https://picsum.photos/id/3/1000/1000",
+        "https://picsum.photos/id/4/1000/1000",
+        "https://picsum.photos/id/5/1000/1000",
+    ]
 
-    const productHeaderComponent = isMobile ? <MobileGridView product={product} /> : <DesktopGridView product={product} />
+    const productVideosUrls = [
+        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    ]
+    const productHeaderComponent = isMobile 
+        ? <MobileGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} /> 
+        : <DesktopGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened}  photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
     return (
-        <Card withBorder className={classes.card}>
-            {productHeaderComponent}
-        </Card>
+        <>
+            <Card withBorder className={classes.card}>
+                {productHeaderComponent}
+            </Card>
+            <PhotosModal opened={photosModalOpened} setOpened={setPhotosModalOpened} photosUrls={productPhotosUrls} />
+            <VideosModal opened={videosModalOpened} setOpened={setVideosModalOpened} videosUrls={productVideosUrls} />
+        </>
     );
 }
 
