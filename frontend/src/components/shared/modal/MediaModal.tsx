@@ -30,8 +30,8 @@ function MediaModal({ opened, setOpened, mediaUrls, initialSlideIndex }: MediaMo
     }
 
 
-    const slides = mediaUrls.map((url) => (
-        <Carousel.Slide key={url}>
+    const slides = mediaUrls.map((url, index) => (
+        <Carousel.Slide key={index}>
             {mediaComponent(url)}
         </Carousel.Slide>
     ));

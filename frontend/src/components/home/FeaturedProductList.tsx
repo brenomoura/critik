@@ -30,7 +30,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Sed ab porro.",
             "name": "Refined Plastic Soap",
             "score": 10,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 62653,
@@ -38,7 +38,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Reprehenderit quisquam doloremque. Sed animi ut enim. Velit laborum rem voluptatum. Expedita accusamus est. Quisquam eos cumque sint sapiente error quaerat exercitationem maxime.",
             "name": "Fantastic Wooden Bike",
             "score": 9.9,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 58696,
@@ -46,7 +46,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Hic et in voluptatem vel porro. Ut totam quisquam doloribus est dolor blanditiis culpa ut. Est non non dolorem odio repellat dolor ut facere omnis. Non quas sit dolorum architecto. In facilis voluptatem saepe sed voluptatem. Sit natus aut et dignissimos et et voluptatem.",
             "name": "Small Metal Salad",
             "score": 8.4,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 48839,
@@ -54,7 +54,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Distinctio eum ad ab. Tenetur voluptatem ut officiis soluta et a. Vel officiis provident velit consequatur possimus itaque et. Perferendis possimus quae similique quia quae eum.",
             "name": "Gorgeous Metal Salad",
             "score": 8.3,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 20957,
@@ -62,7 +62,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Sit magnam nihil possimus officiis aut et necessitatibus sint nam. Expedita ipsa magni. Et non fugiat.\n \rQui quia est sed eos amet. Quis nihil sed sit ut. Voluptatem doloribus ut. Provident provident sint occaecati libero sapiente qui. In dolorum cum veniam.\n \rDebitis aperiam autem facilis. Enim et quas accusamus aperiam. Itaque eum ut est qui veritatis. Quia dolorem molestiae alias aut velit. Explicabo magnam quo consectetur.",
             "name": "Generic Wooden Towels",
             "score": 8.1,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 39666,
@@ -70,7 +70,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Doloribus quae illum vel quas quia quae voluptates. Aut impedit doloremque eum. Cum sint et sint est laboriosam quibusdam facilis temporibus. Alias corrupti ea voluptates harum eum qui assumenda perferendis. Dolores minus aliquam distinctio rem quisquam modi ab maiores deleniti.",
             "name": "Ergonomic Concrete Cheese",
             "score": 8.0,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 28848,
@@ -78,7 +78,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "expedita",
             "name": "Unbranded Steel Shoes",
             "score": 7.9,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 4289,
@@ -86,7 +86,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Ut non fugiat soluta eligendi harum consequatur est officiis. Architecto in enim cum ut aliquid fugit similique ex. Soluta non quis perferendis ipsam soluta. Consequatur ab explicabo commodi.\n \rVoluptatibus illum accusamus laborum et unde. Aut quia autem voluptas quis eligendi deserunt et ipsa. Odio delectus repudiandae non ducimus qui ipsa sequi distinctio cumque. Nesciunt voluptates nihil eos omnis facere.\n \rNemo qui mollitia et eaque nisi. Id tenetur et deleniti sunt ex quis molestiae. Distinctio at eos rerum consequatur numquam dolore est sunt. In et inventore quasi eum aut voluptatem corporis ratione. Modi laborum natus et natus numquam nihil recusandae.",
             "name": "Intelligent Rubber Bike",
             "score": 7.8,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 76611,
@@ -94,7 +94,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "quia",
             "name": "Licensed Frozen Soap",
             "score": 7.4,
-            "category": "electronic"
+            "category": "Electronics"
         },
         {
             "id": 69391,
@@ -102,7 +102,7 @@ const FeaturedProductList = ({ isMobile }: FeaturedProductListprops) => {
             "description": "Ipsa sint molestias. Ex est non maiores ab quo quo explicabo vel.",
             "name": "Generic Fresh Fish",
             "score": 7.1,
-            "category": "electronic"
+            "category": "Electronics"
         }
     ]
 

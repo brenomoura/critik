@@ -10,7 +10,9 @@ interface UserReview {
     updated_at: string,
     photos_urls: string[],
     videos_urls: string[],
-    answers: UserReviewAnswer[]
+    answers: UserReviewAnswer[],
+    likeCount: number,
+    deslikeCount: number,
 }
 
 interface UserReviewAnswer {
@@ -32,7 +34,9 @@ const generateUserReview = (): UserReview => {
         updated_at: faker.date.recent().toISOString(),
         photos_urls: Array.from({ length: faker.number.int({ min: 0, max: 3 }) }, () => faker.image.url()),
         videos_urls: Array.from({ length: faker.number.int({ min: 0, max: 2 }) }, () => "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"),
-        answers: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }, () => generateUserReviewAnswer())
+        answers: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }, () => generateUserReviewAnswer()),
+        likeCount: faker.number.int({ min: 4, max: 500 }),
+        deslikeCount: faker.number.int({ min: 4, max: 10 }),
     };
 
     return review;

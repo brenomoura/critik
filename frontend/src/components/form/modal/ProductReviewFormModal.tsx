@@ -77,7 +77,7 @@ const ProductReviewFormModal = ({ opened, setOpened }: ProductReviewFormProps) =
                     What rating do you give to the product?
                 </Title>
                 <Slider
-                    defaultValue={5}
+                    defaultValue={5} // Change logic to not have a default, since it is possible to the user just submit the form without giving a proper score/rate
                     label={(val) => marks.find((mark) => mark.value === val)!.label}
                     max={10}
                     step={1}
@@ -86,9 +86,18 @@ const ProductReviewFormModal = ({ opened, setOpened }: ProductReviewFormProps) =
                     style={{ padding: 20 }}
                 />
                 <Space h="xl" />
+                <Title
+                    order={2}
+                    size="h4"
+                    style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
+                    ta="left"
+                >
+                    Your Product Attachments
+                </Title>
+                <Space h="xs" />
                 <div>
                     <Dropzone accept={[...IMAGE_MIME_TYPE, 'video/mp4']} onDrop={setFiles}>
-                        <Text ta="center">Drop images or videos here</Text>
+                        <Text ta="center">Drop images or videos that you have about the product here</Text>
                     </Dropzone>
 
                     <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>

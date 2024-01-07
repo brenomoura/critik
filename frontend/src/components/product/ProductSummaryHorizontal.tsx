@@ -78,7 +78,7 @@ const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, 
                     <Text fz="sm" c="dimmed" fw={500}>
                         {product.category}
                     </Text>
-                    <Text fz="sm" lineClamp={4}>
+                    <Text fz="sm">
                         {product.description}
                     </Text>
                 </Stack>
@@ -139,7 +139,7 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
                 <Text fz="sm" c="dimmed" fw={500}>
                     {product.category}
                 </Text>
-                <Text fz="sm" lineClamp={4}>
+                <Text fz="sm">
                     {product.description}
                 </Text>
 
@@ -157,10 +157,10 @@ const ProductSummaryHorizontal = () => {
     const product = {
         "id": 28848,
         "avatar": "https://picsum.photos/id/1/1000/1000",
-        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into Electronics typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
         "name": "Unbranded Steel Shoes",
         "score": 7.9,
-        "category": "electronic"
+        "category": "Electronics"
     }
     const productPhotosUrls = [
         "https://picsum.photos/id/1/1000/1000",
