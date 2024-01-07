@@ -16,9 +16,27 @@ import { Star, Images, Video } from '@phosphor-icons/react'
 import classes from './ProductSummaryHorizontal.module.css';
 import IProductItem from '../../types/productItemInterface';
 import { useMediaQuery } from '@mantine/hooks';
-import PhotosModal from '../shared/modal/PhotosModal';
 import { useState } from 'react';
-import VideosModal from '../shared/modal/VideosModal';
+import MediaModal from '../shared/modal/MediaModal';
+
+
+interface UserReview {
+    id: number,
+    username: string,
+    review: string,
+    score: number,
+    created_at: string,
+    updated_at: string,
+    photos_urls: string[],
+    videos_urls: string[],
+    answers: UserReviewAnswer[]
+}
+
+interface UserReviewAnswer {
+    id: number,
+    username: string,
+    comment: string
+}
 
 
 const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: { product: IProductItem, setPhotosModalOpened: any, setVideosModalOpened: any, videosCount: number, photosCount: number }) => {
@@ -31,6 +49,8 @@ const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, 
                         size={250}
                         radius="xl"
                         mr="xs"
+                        onClick={() => (setPhotosModalOpened(true))}
+                        style={{ cursor: "pointer" }}
                     />
                     <Stack>
                         <Tooltip label='Click here to see the product photos' position='right' withArrow>
@@ -85,6 +105,9 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
                         size={210}
                         radius="xl"
                         mr="xs"
+                        onClick={() => (setPhotosModalOpened(true))}
+                        style={{ cursor: "pointer" }}
+
                     />
                     <Stack>
                         <Tooltip label='Click here to see the product photos' position='right' withArrow>
@@ -133,7 +156,7 @@ const ProductSummaryHorizontal = () => {
 
     const product = {
         "id": 28848,
-        "avatar": "https://picsum.photos/200/300",
+        "avatar": "https://picsum.photos/id/1/1000/1000",
         "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
         "name": "Unbranded Steel Shoes",
         "score": 7.9,
@@ -152,16 +175,20 @@ const ProductSummaryHorizontal = () => {
         "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
         "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     ]
+
+
     const productHeaderComponent = isMobile 
         ? <MobileGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} /> 
         : <DesktopGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened}  photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
+
+    // TODO: The image used in the avatar must be the first image in the photos urls array!
     return (
         <>
             <Card withBorder className={classes.card}>
                 {productHeaderComponent}
             </Card>
-            <PhotosModal opened={photosModalOpened} setOpened={setPhotosModalOpened} photosUrls={productPhotosUrls} />
-            <VideosModal opened={videosModalOpened} setOpened={setVideosModalOpened} videosUrls={productVideosUrls} />
+            <MediaModal opened={photosModalOpened} setOpened={setPhotosModalOpened} mediaUrls={productPhotosUrls} />
+            <MediaModal opened={videosModalOpened} setOpened={setVideosModalOpened} mediaUrls={productVideosUrls} />
         </>
     );
 }
