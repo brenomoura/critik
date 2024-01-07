@@ -17,7 +17,8 @@ interface UserReviewAnswer {
     id: number,
     username: string,
     user_avatar_url: string,
-    comment: string
+    comment: string,
+    created_at: string
 }
 
 const generateUserReview = (): UserReview => {
@@ -25,7 +26,7 @@ const generateUserReview = (): UserReview => {
         id: faker.number.int(),
         username: faker.internet.userName(),
         user_avatar_url: faker.image.url(),
-        review: faker.lorem.sentence(),
+        review: faker.lorem.text(),
         score: faker.number.int({ min: 1, max: 10 }),
         created_at: faker.date.past().toISOString(),
         updated_at: faker.date.recent().toISOString(),
@@ -42,7 +43,8 @@ const generateUserReviewAnswer = (): UserReviewAnswer => {
         id: faker.number.int(),
         username: faker.internet.userName(),
         user_avatar_url: faker.image.url(),
-        comment: faker.lorem.sentence()
+        comment: faker.lorem.sentence(),
+        created_at: faker.date.recent().toISOString(),
     };
 };
 

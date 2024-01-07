@@ -10,7 +10,9 @@ import {
     Grid,
     SimpleGrid,
     Image,
-    Tooltip
+    Tooltip,
+    Divider,
+    Space
 } from "@mantine/core";
 import { Star, Video } from '@phosphor-icons/react'
 import generateMain from "../../mock_data/generate_review";
@@ -21,11 +23,11 @@ import { useState } from "react";
 
 
 // The same interface from the API
-interface UserReviewAnswer {
-    id: number,
+interface IUserReviewAnswer {
     username: string,
     user_avatar_url: string,
-    comment: string
+    comment: string,
+    created_at: string
 }
 
 interface UserReviewProps {
@@ -34,8 +36,34 @@ interface UserReviewProps {
     createdAt: string,
     review: string,
     score: number,
-    answers: UserReviewAnswer[]
+    answers: IUserReviewAnswer[]
     mediaUrls: string[],
+}
+
+const UserReviewAnswer = ({ username, user_avatar_url, comment, created_at }: IUserReviewAnswer) => {
+    return (
+        <>
+            <Divider my="xs" color="gray" style={{ marginLeft: 30 }} />
+            <div style={{ marginLeft: 30 }}>
+                <Group>
+                    <Avatar
+                        src={user_avatar_url}
+                        alt={username}
+                        radius="xl"
+                    />
+                    <div>
+                        <Text size="sm">{username}</Text>
+                        <Text size="xs" c="dimmed">
+                            {`${moment(created_at).fromNow()}`}
+                        </Text>
+                    </div>
+                </Group>
+                <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
+                    {comment}
+                </Text>
+            </div>
+        </>
+    )
 }
 
 const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers, mediaUrls }: UserReviewProps) => {
@@ -45,11 +73,11 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
     const mediaComponent = (url: string) => {
         if (url.includes(".mp4")) {
             return (
-                <Image src="../../../public/play_button_gray_bg.jpg" maw={80} style={{ aspectRatio: "4/3" }}/>
+                <Image src="../../../public/play_button_gray_bg.jpg" maw={80} style={{ aspectRatio: "4/3" }} />
             )
         }
         return (
-            <Image src={url} maw={80} style={{ aspectRatio: "4/3" }}/>
+            <Image src={url} maw={80} style={{ aspectRatio: "4/3" }} />
         )
     }
     const mediaComponentOnClick = (initialSlide: number) => {
@@ -70,11 +98,11 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                         <div>
                             <Text size="sm">{username}</Text>
                             <Text size="xs" c="dimmed">
-                                {` ${moment(createdAt).fromNow()}`}
+                                {`${moment(createdAt).fromNow()}`}
                             </Text>
                         </div>
                     </Group>
-                    <Text pl={54} pt="sm" size="sm">
+                    <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
                         {review}
                     </Text>
                 </Grid.Col>
@@ -99,6 +127,15 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                     </Center>
                 </Grid.Col>
             </Grid>
+            {answers.map((answer, index) => (
+                <UserReviewAnswer 
+                    key={index}
+                    username={answer.username}
+                    user_avatar_url={answer.user_avatar_url}
+                    comment={answer.comment}
+                    created_at={answer.created_at}
+                />
+            ))}
             <MediaModal opened={mediaModalOpened} setOpened={setMediaModalOpened} mediaUrls={mediaUrls} initialSlideIndex={initialSlideIndex} />
         </Paper>
     );

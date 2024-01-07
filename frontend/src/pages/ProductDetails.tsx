@@ -12,7 +12,7 @@ const ProductDetails = () => {
     return (
         <div>
             <SearchBar />
-            <Space  h="md" />
+            <Space h="md" />
             <ProductSummaryHorizontal />
             <ProductReviewForm />
             <ProductReviewList />
