@@ -1,10 +1,12 @@
 interface IProductItem {
     id: number
     name: string,
-    score: number,
+    rating: number,
     description: string
     avatar: string,
-    category: string
+    category: string,
+    discussionsCount: number,
+    reviewsCount: number
 }
 
 export default IProductItem

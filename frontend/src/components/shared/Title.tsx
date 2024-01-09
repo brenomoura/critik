@@ -2,13 +2,9 @@ import { Center, Text } from "@mantine/core"
 
 interface TitleProps {
     label: string;
-    isMobile: boolean;
 }
 
-const Title = ({ label, isMobile }: TitleProps) => {
-    if (isMobile) {
-        return null
-    }
+const Title = ({ label }: TitleProps) => {
     return (
         <Center>
             <Text fw={700} size="xl">

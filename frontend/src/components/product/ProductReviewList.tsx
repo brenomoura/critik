@@ -165,7 +165,7 @@ const ProductReviewList = () => {
                     userAvatarUrl={userReview.user_avatar_url}
                     createdAt={userReview.created_at}
                     review={userReview.review}
-                    score={userReview.score}
+                    score={userReview.user_rating}
                     answers={userReview.answers}
                     mediaUrls={[...userReview.photos_urls, ...userReview.videos_urls]}
                     likeCount={userReview.likeCount}

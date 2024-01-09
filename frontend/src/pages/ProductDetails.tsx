@@ -1,7 +1,7 @@
 import { Space } from "@mantine/core"
-import ProductReviewForm from "../components/form/ProductReviewForm"
+import AddProductReview from "../components/form/ProductReviewForm"
 import ProductReviewList from "../components/product/ProductReviewList"
-import ProductSummaryHorizontal from "../components/product/ProductSummaryHorizontal"
+import ProductSummaryHorizontal from "../components/product/ProductSummaryReviews"
 import SearchBar from "../components/shared/SearchBar"
 
 const ProductDetails = () => {
@@ -10,7 +10,7 @@ const ProductDetails = () => {
             <SearchBar />
             <Space h="md" />
             <ProductSummaryHorizontal />
-            <ProductReviewForm />
+            <AddProductReview />
             <ProductReviewList />
         </div>
     )

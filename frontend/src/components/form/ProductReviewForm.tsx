@@ -3,8 +3,9 @@ import { ListPlus } from '@phosphor-icons/react'
 import { useState } from 'react';
 import ProductReviewFormModal from './modal/ProductReviewFormModal';
 
+// TODO - Create a confirm modal to avoid user miss click when he is creating/editing the discussion
 
-const ProductReviewForm = () => {
+const AddProductReview = () => {
     const [modalOpened, setModalOpened] = useState<true | false>(false);
 
     return (
@@ -22,4 +23,4 @@ const ProductReviewForm = () => {
     )
 }
 
-export default ProductReviewForm
+export default AddProductReview

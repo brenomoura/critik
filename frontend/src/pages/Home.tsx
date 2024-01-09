@@ -1,4 +1,4 @@
-import Discussions from "../components/home/Discussions"
+import FeaturedDiscussions from "../components/home/FeaturedDiscussions"
 import FeaturedProductList from "../components/home/FeaturedProductList"
 import SearchBar from "../components/shared/SearchBar"
 import { Container, Grid, em, Tabs, Text, Space } from '@mantine/core'
@@ -8,8 +8,8 @@ import { useMediaQuery } from '@mantine/hooks'
 const DesktopView = () => {
     return (
         <Grid>
-            <Grid.Col span={6}><Discussions isMobile={false} /></Grid.Col>
-            <Grid.Col span={6}><FeaturedProductList isMobile={false} /></Grid.Col>
+            <Grid.Col span={6}><FeaturedDiscussions /></Grid.Col>
+            <Grid.Col span={6}><FeaturedProductList /></Grid.Col>
         </Grid>
     )
 }
@@ -27,11 +27,11 @@ const MobileView = () => {
             </Tabs.List>
             <Tabs.Panel value="discussions">
                 <Space h="lg" />
-                <Discussions isMobile={true} />
+                <FeaturedDiscussions showTitle={false} />
             </Tabs.Panel>
             <Tabs.Panel value="featured">
                 <Space h="lg" />
-                <FeaturedProductList isMobile={true} />
+                <FeaturedProductList showTitle={false} />
             </Tabs.Panel>
         </Tabs>
     )

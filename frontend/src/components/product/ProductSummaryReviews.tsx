@@ -11,13 +11,15 @@ import {
     Stack,
     SimpleGrid,
     Tooltip,
+    Group,
 } from '@mantine/core';
 import { Star, Images, Video } from '@phosphor-icons/react'
-import classes from './ProductSummaryHorizontal.module.css';
+import classes from './ProductSummaryReviews.module.css';
 import IProductItem from '../../types/productItemInterface';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import MediaModal from '../shared/modal/MediaModal';
+import generateProduct from '../../mock_data/generate_product';
 
 
 interface UserReview {
@@ -84,11 +86,33 @@ const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, 
                 </Stack>
             </Grid.Col>
             <Grid.Col span="auto">
-                <Center>
-                    <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
-                        <Title size={100}>{product.score}</Title>
-                    </Badge>
-                </Center>
+                <Stack>
+                    <Center>
+                        <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
+                            <Title size={100}>{product.rating.toFixed(1)}</Title>
+                        </Badge>
+                    </Center>
+                    <Center>
+                        <Group mt={-150} justify="center" >
+                            <div>
+                                <Text ta="center" fz="lg" fw={500}>
+                                    {product.reviewsCount}
+                                </Text>
+                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                    Total Ratings
+                                </Text>
+                            </div>
+                            <div>
+                                <Text ta="center" fz="lg" fw={500}>
+                                    {product.discussionsCount}
+                                </Text>
+                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                    Total Discussions
+                                </Text>
+                            </div>
+                        </Group>
+                    </Center>
+                </Stack>
             </Grid.Col>
         </Grid>
     )
@@ -127,9 +151,33 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
                     </Stack>
                 </Center>
                 <Center>
-                    <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
-                        <Title size={100}>{product.score}</Title>
-                    </Badge>
+                    <Stack>
+                        <Center>
+                            <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
+                                <Title size={100}>{product.rating.toFixed(1)}</Title>
+                            </Badge>
+                        </Center>
+                        <Center>
+                            <Group mt={-150} justify="center" >
+                                <div>
+                                    <Text ta="center" fz="lg" fw={500}>
+                                        {product.reviewsCount}
+                                    </Text>
+                                    <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                        Total Ratings
+                                    </Text>
+                                </div>
+                                <div>
+                                    <Text ta="center" fz="lg" fw={500}>
+                                        {product.discussionsCount}
+                                    </Text>
+                                    <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                        Total Discussions
+                                    </Text>
+                                </div>
+                            </Group>
+                        </Center>
+                    </Stack>
                 </Center>
             </SimpleGrid>
             <div>
@@ -149,19 +197,12 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
 }
 
 
-const ProductSummaryHorizontal = () => {
+const ProductSummaryReviews = () => {
     const isMobile = useMediaQuery(`(max-width: ${em(1335)})`);
     const [photosModalOpened, setPhotosModalOpened] = useState<true | false>(false);
     const [videosModalOpened, setVideosModalOpened] = useState<true | false>(false);
 
-    const product = {
-        "id": 28848,
-        "avatar": "https://picsum.photos/id/1/1000/1000",
-        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into Electronics typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-        "name": "Unbranded Steel Shoes",
-        "score": 7.9,
-        "category": "Electronics"
-    }
+    const product = generateProduct()
     const productPhotosUrls = [
         "https://picsum.photos/id/1/1000/1000",
         "https://picsum.photos/id/2/1000/1000",
@@ -177,9 +218,9 @@ const ProductSummaryHorizontal = () => {
     ]
 
 
-    const productHeaderComponent = isMobile 
-        ? <MobileGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} /> 
-        : <DesktopGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened}  photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
+    const productHeaderComponent = isMobile
+        ? <MobileGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
+        : <DesktopGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
 
     // TODO: The image used in the avatar must be the first image in the photos urls array!
     return (
@@ -193,4 +234,4 @@ const ProductSummaryHorizontal = () => {
     );
 }
 
-export default ProductSummaryHorizontal
+export default ProductSummaryReviews;
