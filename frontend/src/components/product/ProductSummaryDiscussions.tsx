@@ -4,13 +4,15 @@ import generateProduct from '../../mock_data/generate_product';
 import { Star } from '@phosphor-icons/react';
 import IProductItem from '../../types/productItemInterface';
 import { useMediaQuery } from '@mantine/hooks';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ProductSummaryDiscussionsProps {
     product: IProductItem
+    redirectToReviewsPageClick: any
 }
 
-const ProductSummaryDiscussionsDesktop = ({ product }: ProductSummaryDiscussionsProps) => {
+const ProductSummaryDiscussionsDesktop = ({ product, redirectToReviewsPageClick }: ProductSummaryDiscussionsProps) => {
     return (
         <Card padding="xl" radius="xs" style={{ backgroundColor: 'transparent' }}>
             <Avatar
@@ -57,14 +59,15 @@ const ProductSummaryDiscussionsDesktop = ({ product }: ProductSummaryDiscussions
                     </Text>
                 </div>
             </Group>
-            <Button fullWidth radius="md" mt="xl" size="md" variant="default">
-                Product Reviews
+            <Button fullWidth radius="md" mt="xl" size="md" variant="default" onClick={redirectToReviewsPageClick}>
+                Go to Product Reviews
             </Button>
         </Card>
     );
 }
 
-const ProductSummaryDiscussionsMobile = ({ product }: ProductSummaryDiscussionsProps) => {
+const ProductSummaryDiscussionsPortable = ({ product, redirectToReviewsPageClick }: ProductSummaryDiscussionsProps) => {
+
     return (
         <Center>
             <Group mb={10}>
@@ -115,21 +118,26 @@ const ProductSummaryDiscussionsMobile = ({ product }: ProductSummaryDiscussionsP
                     </Group>
                 </div>
             </Group>
-            <Button radius="md" variant="default" ml={10}>
-                Product Reviews
+            <Button radius="md" variant="default" ml={10} onClick={redirectToReviewsPageClick}>
+                Go To Product Reviews
             </Button>
-
         </Center>
     )
 }
 
-
-const ProductSummaryDiscussions = () => {
+const ProductSummaryDiscussions = ({isPortable}: {isPortable: boolean}) => {
     const product = generateProduct()
-    const isMobile = useMediaQuery(`(max-width: ${em(1150)})`);
-    const mainComponent = isMobile
-        ? <ProductSummaryDiscussionsMobile product={product} />
-        : <ProductSummaryDiscussionsDesktop product={product} />
+    
+    const navigate = useNavigate();
+    const redirectToReviewsPageClick = () => navigate(`/product/${product.id}`);
+
+    const productSummaryProps: ProductSummaryDiscussionsProps = {
+        product: product,
+        redirectToReviewsPageClick: redirectToReviewsPageClick
+    }
+    const mainComponent = isPortable
+        ? <ProductSummaryDiscussionsPortable {...productSummaryProps} />
+        : <ProductSummaryDiscussionsDesktop {...productSummaryProps} />
 
     return mainComponent;
 }

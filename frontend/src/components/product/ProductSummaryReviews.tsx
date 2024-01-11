@@ -12,6 +12,7 @@ import {
     SimpleGrid,
     Tooltip,
     Group,
+    Button,
 } from '@mantine/core';
 import { Star, Images, Video } from '@phosphor-icons/react'
 import classes from './ProductSummaryReviews.module.css';
@@ -20,6 +21,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import MediaModal from '../shared/modal/MediaModal';
 import generateProduct from '../../mock_data/generate_product';
+import { useNavigate } from 'react-router-dom';
 
 
 interface UserReview {
@@ -40,8 +42,61 @@ interface UserReviewAnswer {
     comment: string
 }
 
+interface ProductStatsComponentProps {
+    product: IProductItem
+}
 
-const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: { product: IProductItem, setPhotosModalOpened: any, setVideosModalOpened: any, videosCount: number, photosCount: number }) => {
+interface GridViewProps {
+    product: IProductItem, 
+    setPhotosModalOpened: any, 
+    setVideosModalOpened: any, 
+    videosCount: number, 
+    photosCount: number
+}
+
+const ProductStatsComponent = ({ product }: ProductStatsComponentProps) => {
+    const navigate = useNavigate();
+    const redirectToDiscussionPageClick = () => navigate(`/product/${product.id}/discussions`);
+
+    return (
+        <Center>
+            <Stack>
+                <Button mb={-100} mt={50} radius="md" variant="default" onClick={redirectToDiscussionPageClick}>
+                    Go To Product Discussions
+                </Button>
+                <Center>
+                    <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
+                        <Title size={100}>{product.rating.toFixed(1)}</Title>
+                    </Badge>
+                </Center>
+                <Center>
+                    <Group mt={-150} justify="center" >
+                        <div>
+                            <Text ta="center" fz="lg" fw={500}>
+                                {product.reviewsCount}
+                            </Text>
+                            <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                Total Ratings
+                            </Text>
+                        </div>
+                        <div style={{ cursor: 'pointer' }} onClick={redirectToDiscussionPageClick}>
+                            <Text ta="center" fz="lg" fw={500}>
+                                {product.discussionsCount}
+                            </Text>
+                            <Text ta="center" fz="sm" c="dimmed" lh={1}>
+                                Total Discussions
+                            </Text>
+                        </div>
+                    </Group>
+                </Center>
+            </Stack>
+        </Center>
+
+    )
+}
+
+
+const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: GridViewProps) => {
     return (
         <Grid align="center" >
             <Grid.Col span="auto">
@@ -86,39 +141,13 @@ const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, 
                 </Stack>
             </Grid.Col>
             <Grid.Col span="auto">
-                <Stack>
-                    <Center>
-                        <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
-                            <Title size={100}>{product.rating.toFixed(1)}</Title>
-                        </Badge>
-                    </Center>
-                    <Center>
-                        <Group mt={-150} justify="center" >
-                            <div>
-                                <Text ta="center" fz="lg" fw={500}>
-                                    {product.reviewsCount}
-                                </Text>
-                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                    Total Ratings
-                                </Text>
-                            </div>
-                            <div>
-                                <Text ta="center" fz="lg" fw={500}>
-                                    {product.discussionsCount}
-                                </Text>
-                                <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                    Total Discussions
-                                </Text>
-                            </div>
-                        </Group>
-                    </Center>
-                </Stack>
+                <ProductStatsComponent product={product} />
             </Grid.Col>
         </Grid>
     )
 }
 
-const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: { product: IProductItem, setPhotosModalOpened: any, setVideosModalOpened: any, videosCount: number, photosCount: number }) => {
+const PortableGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: GridViewProps) => {
 
     return (
         <Stack>
@@ -150,35 +179,7 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
                         </Tooltip>
                     </Stack>
                 </Center>
-                <Center>
-                    <Stack>
-                        <Center>
-                            <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
-                                <Title size={100}>{product.rating.toFixed(1)}</Title>
-                            </Badge>
-                        </Center>
-                        <Center>
-                            <Group mt={-150} justify="center" >
-                                <div>
-                                    <Text ta="center" fz="lg" fw={500}>
-                                        {product.reviewsCount}
-                                    </Text>
-                                    <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                        Total Ratings
-                                    </Text>
-                                </div>
-                                <div>
-                                    <Text ta="center" fz="lg" fw={500}>
-                                        {product.discussionsCount}
-                                    </Text>
-                                    <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                                        Total Discussions
-                                    </Text>
-                                </div>
-                            </Group>
-                        </Center>
-                    </Stack>
-                </Center>
+                <ProductStatsComponent product={product} />
             </SimpleGrid>
             <div>
                 <Text fz="xl">
@@ -198,7 +199,7 @@ const MobileGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, v
 
 
 const ProductSummaryReviews = () => {
-    const isMobile = useMediaQuery(`(max-width: ${em(1335)})`);
+    const isPortable = useMediaQuery(`(max-width: ${em(1280)})`);
     const [photosModalOpened, setPhotosModalOpened] = useState<true | false>(false);
     const [videosModalOpened, setVideosModalOpened] = useState<true | false>(false);
 
@@ -217,10 +218,17 @@ const ProductSummaryReviews = () => {
         "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     ]
 
+    const gridViewProps: GridViewProps = {
+        product: product,
+        setPhotosModalOpened: setPhotosModalOpened,
+        setVideosModalOpened: setVideosModalOpened, 
+        photosCount: productPhotosUrls.length, 
+        videosCount: productVideosUrls.length
+    }
 
-    const productHeaderComponent = isMobile
-        ? <MobileGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
-        : <DesktopGridView product={product} setPhotosModalOpened={setPhotosModalOpened} setVideosModalOpened={setVideosModalOpened} photosCount={productPhotosUrls.length} videosCount={productVideosUrls.length} />
+    const productHeaderComponent = isPortable
+        ? <PortableGridView {...gridViewProps} />
+        : <DesktopGridView {...gridViewProps} />
 
     // TODO: The image used in the avatar must be the first image in the photos urls array!
     return (

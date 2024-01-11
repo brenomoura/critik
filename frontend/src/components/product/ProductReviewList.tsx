@@ -15,7 +15,6 @@ import {
     Button
 } from "@mantine/core";
 import { Star, ThumbsUp, ThumbsDown } from '@phosphor-icons/react'
-import generateMain from "../../mock_data/generate_review";
 import moment from "moment";
 import MediaModal from "../shared/modal/MediaModal";
 import { useState } from "react";
@@ -40,6 +39,34 @@ interface UserReviewProps {
     mediaUrls: string[],
     likeCount: number,
     deslikeCount: number
+}
+
+interface UserReview {
+    id: number,
+    username: string,
+    user_avatar_url: string,
+    review: string,
+    user_rating: number,
+    created_at: string,
+    updated_at: string,
+    photos_urls: string[],
+    videos_urls: string[],
+    answers: UserReviewAnswer[],
+    likeCount: number,
+    deslikeCount: number,
+}
+
+interface UserReviewAnswer {
+    id: number,
+    username: string,
+    user_avatar_url: string,
+    comment: string,
+    created_at: string
+}
+
+
+interface ProductReviewListProps {
+    userReviews: UserReview[]
 }
 
 const UserReviewAnswer = ({ username, user_avatar_url, comment, created_at }: IUserReviewAnswer) => {
@@ -153,8 +180,7 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
     );
 }
 
-const ProductReviewList = () => {
-    const userReviews = generateMain()
+const ProductReviewList = ({userReviews}: ProductReviewListProps) => {
 
     return (
         <>

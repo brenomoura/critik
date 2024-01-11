@@ -8,7 +8,6 @@ import {
     Stack,
     Container,
     Grid,
-    HoverCard,
     Tooltip,
 } from '@mantine/core';
 import { Chat } from '@phosphor-icons/react'
