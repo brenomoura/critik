@@ -4,9 +4,13 @@ import { IconSearch } from '@tabler/icons-react';
 import { Copyright, Bell, EnvelopeSimple } from '@phosphor-icons/react'
 
 import classes from './SearchBar.module.css';
+import { useNavigate } from 'react-router-dom';
+import StyledLink from './StyledLink';
 
 
 const SearchBar = () => {
+  const navigate = useNavigate();
+
   const [opened, { toggle }] = useDisclosure(false);
   let notificationBadge = true
   let privateMessageBadge = false
@@ -16,7 +20,11 @@ const SearchBar = () => {
     <header className={classes.header}>
       <Space h={"md"} />
       <Grid>
-        <Grid.Col span={4}><Copyright size={32} /></Grid.Col>
+        <Grid.Col span={4}>
+          <StyledLink to={`/`}>
+            <Copyright size={32} />
+          </StyledLink>
+        </Grid.Col>
         <Grid.Col span={4}>
           <Autocomplete
             placeholder="Search for a product..."

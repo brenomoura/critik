@@ -12,7 +12,8 @@ import {
     Image,
     Divider,
     Stack,
-    Button
+    Button,
+    Tooltip
 } from "@mantine/core";
 import { Star, ThumbsUp, ThumbsDown } from '@phosphor-icons/react'
 import moment from "moment";
@@ -82,9 +83,11 @@ const UserReviewAnswer = ({ username, user_avatar_url, comment, created_at }: IU
                     />
                     <div>
                         <Text size="sm">{username}</Text>
-                        <Text size="xs" c="dimmed">
-                            {`${moment(created_at).fromNow()}`}
-                        </Text>
+                        <Tooltip label={`${moment(created_at).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
+                            <Text size="xs" c="dimmed">
+                                {`${moment(created_at).fromNow()}`}
+                            </Text>
+                        </Tooltip>
                     </div>
                 </Group>
                 <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
@@ -129,9 +132,11 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                             />
                             <div>
                                 <Text size="sm">{username}</Text>
-                                <Text size="xs" c="dimmed">
-                                    {`${moment(createdAt).fromNow()}`}
-                                </Text>
+                                <Tooltip label={`${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
+                                    <Text size="xs" c="dimmed">
+                                        {`${moment(createdAt).fromNow()}`}
+                                    </Text>
+                                </Tooltip>
                             </div>
                         </Group>
                         <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
@@ -161,8 +166,8 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                 </Grid>
                 <div style={{ marginLeft: 50 }}>
                     <Button.Group>
-                        <Button variant="transparent" color="gray" leftSection={<ThumbsUp/>}>{likeCount}</Button>
-                        <Button variant="transparent" color="gray" leftSection={<ThumbsDown/>}>{deslikeCount}</Button>
+                        <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{likeCount}</Button>
+                        <Button variant="transparent" color="gray" leftSection={<ThumbsDown />}>{deslikeCount}</Button>
                     </Button.Group>
                 </div>
             </Stack>
@@ -180,7 +185,7 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
     );
 }
 
-const ProductReviewList = ({userReviews}: ProductReviewListProps) => {
+const ProductReviewList = ({ userReviews }: ProductReviewListProps) => {
 
     return (
         <>
@@ -198,7 +203,6 @@ const ProductReviewList = ({userReviews}: ProductReviewListProps) => {
                     deslikeCount={userReview.deslikeCount}
                 />
             ))}
-
         </>
     )
 }

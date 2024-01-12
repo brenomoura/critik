@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 interface IProductDiscussion {
     id: number,
+    product_id: number,
     topic_title: string,
     product_avatar: string,
     topic_content_shortened: string,
@@ -19,6 +20,7 @@ interface IProductDiscussion {
 const generateDiscussion = (): IProductDiscussion => {
     const review: IProductDiscussion = {
         id: faker.number.int(),
+        product_id: faker.number.int(),
         topic_title: faker.lorem.sentence(),
         product_avatar: faker.image.url(),
         product_name: faker.commerce.product(),

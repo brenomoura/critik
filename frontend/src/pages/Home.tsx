@@ -14,7 +14,7 @@ const DesktopView = () => {
     )
 }
 
-const MobileView = () => {
+const PortableView = () => {
     return (
         <Tabs defaultValue="discussions">
             <Tabs.List grow>
@@ -38,8 +38,8 @@ const MobileView = () => {
 }
 
 const Home = () => {
-    const isMobile = useMediaQuery(`(max-width: ${em(1150)})`);
-    const mainComponent = isMobile ? <MobileView /> : <DesktopView />
+    const isPortable = useMediaQuery(`(max-width: ${em(1150)})`);
+    const mainComponent = isPortable ? <PortableView /> : <DesktopView />
 
     return (
         <div>

@@ -5,14 +5,15 @@ import { Star } from '@phosphor-icons/react';
 import IProductItem from '../../types/productItemInterface';
 import { useMediaQuery } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
+import StyledLink from '../shared/StyledLink';
 
 
 interface ProductSummaryDiscussionsProps {
     product: IProductItem
-    redirectToReviewsPageClick: any
+    reviewsPageRoute: string
 }
 
-const ProductSummaryDiscussionsDesktop = ({ product, redirectToReviewsPageClick }: ProductSummaryDiscussionsProps) => {
+const ProductSummaryDiscussionsDesktop = ({ product, reviewsPageRoute }: ProductSummaryDiscussionsProps) => {
     return (
         <Card padding="xl" radius="xs" style={{ backgroundColor: 'transparent' }}>
             <Avatar
@@ -59,14 +60,16 @@ const ProductSummaryDiscussionsDesktop = ({ product, redirectToReviewsPageClick 
                     </Text>
                 </div>
             </Group>
-            <Button fullWidth radius="md" mt="xl" size="md" variant="default" onClick={redirectToReviewsPageClick}>
-                Go to Product Reviews
-            </Button>
+            <StyledLink to={reviewsPageRoute}>
+                <Button fullWidth radius="md" mt="xl" size="md" variant="default">
+                    Go to Product Reviews
+                </Button>
+            </StyledLink>
         </Card>
     );
 }
 
-const ProductSummaryDiscussionsPortable = ({ product, redirectToReviewsPageClick }: ProductSummaryDiscussionsProps) => {
+const ProductSummaryDiscussionsPortable = ({ product, reviewsPageRoute }: ProductSummaryDiscussionsProps) => {
 
     return (
         <Center>
@@ -118,22 +121,21 @@ const ProductSummaryDiscussionsPortable = ({ product, redirectToReviewsPageClick
                     </Group>
                 </div>
             </Group>
-            <Button radius="md" variant="default" ml={10} onClick={redirectToReviewsPageClick}>
-                Go To Product Reviews
-            </Button>
+            <StyledLink to={reviewsPageRoute}>
+                <Button radius="md" variant="default" ml={10}>
+                    Go To Product Reviews
+                </Button>
+            </StyledLink>
         </Center>
     )
 }
 
-const ProductSummaryDiscussions = ({isPortable}: {isPortable: boolean}) => {
+const ProductSummaryDiscussions = ({ isPortable }: { isPortable: boolean }) => {
     const product = generateProduct()
-    
-    const navigate = useNavigate();
-    const redirectToReviewsPageClick = () => navigate(`/product/${product.id}`);
 
     const productSummaryProps: ProductSummaryDiscussionsProps = {
         product: product,
-        redirectToReviewsPageClick: redirectToReviewsPageClick
+        reviewsPageRoute: `/product/${product.id}`
     }
     const mainComponent = isPortable
         ? <ProductSummaryDiscussionsPortable {...productSummaryProps} />

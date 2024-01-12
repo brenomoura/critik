@@ -9,16 +9,19 @@ import {
     Container,
     Grid,
     HoverCard,
+    Tooltip,
 } from '@mantine/core';
 import { Chat } from '@phosphor-icons/react'
-import classes from './Discussions.module.css';
+import classes from './FeaturedDiscussions.module.css';
 import moment from 'moment'
 import Title from '../shared/Title';
 import generateDiscussions from '../../mock_data/generate_discussions';
+import StyledLink from '../shared/StyledLink';
 
 
 interface IProductDiscussion {
     id: number,
+    product_id: number,
     topic_title: string,
     product_avatar: string,
     topic_content_shortened: string,
@@ -41,12 +44,13 @@ interface DiscussionProps {
 }
 
 
-const discussions: IProductDiscussion[] = generateDiscussions()
-
 const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps) => {
-
     return (
-        <Card withBorder radius="md" className={classes.card}>
+        <Card
+            withBorder
+            radius="md"
+            className={classes.card}
+        >
             <Grid>
                 <Grid.Col span="auto">
                     <Center>
@@ -60,74 +64,79 @@ const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps
                                 />
                             </HoverCard.Target>
                             <HoverCard.Dropdown>
-                                <Group justify="space-between">
-                                    <Avatar
-                                        src={productDiscussion.product_avatar}
-                                        size={70}
-                                        radius="xl"
-                                        mr="xs"
-                                    />
-                                    <Text fw={700}>
-                                        {productDiscussion.product_name}
-                                    </Text>
-                                </Group>
+                                <StyledLink to={`/product/${productDiscussion.id}`}>
+                                    <Group justify="space-between">
+                                        <Avatar
+                                            src={productDiscussion.product_avatar}
+                                            size={70}
+                                            radius="xl"
+                                            mr="xs"
+                                        />
+                                        <Text fw={700}>
+                                            {productDiscussion.product_name}
+                                        </Text>
+                                    </Group>
+                                </StyledLink>
                             </HoverCard.Dropdown>
                         </HoverCard>
                     </Center>
                 </Grid.Col>
                 <Grid.Col span={10}>
-                    <Text fw={500}>
-                        {productDiscussion.topic_title}
-                    </Text>
-                    <Text fz="sm" c="dimmed" lineClamp={4}>
-                        {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
-                    </Text>
-                    <Stack
-                        // h={70}
-                        justify="flex-end"
-                    >
-                        <Group justify="space-between" className={classes.footer}>
-                            <Stack
-                                align='flex-start'
-                                justify='flex-end'
-                                style={{ whiteSpace: "pre-wrap", margin: 0 }}
-                            >
-                                <Center>
+                    <StyledLink to={`/product/${productDiscussion.product_id}/discussions/${productDiscussion.id}`}>
+                        <Text fw={500}>
+                            {productDiscussion.topic_title}
+                        </Text>
+                        <Text fz="sm" c="dimmed" lineClamp={4}>
+                            {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
+                        </Text>
+                        <Stack
+                            // h={70}
+                            justify="flex-end"
+                        >
+                            <Group justify="space-between" className={classes.footer}>
+                                <Stack
+                                    align='flex-start'
+                                    justify='flex-end'
+                                    style={{ whiteSpace: "pre-wrap", margin: 0 }}
+                                >
+                                    <Center>
+                                        <Text fz="xs">
+                                            {"Created by "}
+                                        </Text>
+                                        <Avatar
+                                            src={productDiscussion.product_avatar}
+                                            size={20}
+                                            radius="xl"
+                                        />
+                                        <Text fz="xs" fw={700}>
+                                            {` ${productDiscussion.topic_creator_username}`}
+                                        </Text>
+                                    </Center>
+                                </Stack>
+                                <Group gap={8} mr={0}>
                                     <Text fz="xs">
-                                        {"Created by "}
+                                        {"Last post by "}
                                     </Text>
                                     <Avatar
-                                        src={productDiscussion.product_avatar}
+                                        src={productDiscussion.last_post_user_avatar}
                                         size={20}
                                         radius="xl"
                                     />
                                     <Text fz="xs" fw={700}>
-                                        {` ${productDiscussion.topic_creator_username}`}
+                                        {` ${productDiscussion.last_post_username}`}
                                     </Text>
-                                </Center>
-                            </Stack>
-                            <Group gap={8} mr={0}>
-                                <Text fz="xs">
-                                    {"Last post by "}
-                                </Text>
-                                <Avatar
-                                    src={productDiscussion.last_post_user_avatar}
-                                    size={20}
-                                    radius="xl"
-                                />
-                                <Text fz="xs" fw={700}>
-                                    {` ${productDiscussion.last_post_username}`}
-                                </Text>
-                                <Text fz="xs">
-                                    {` ${moment(productDiscussion.last_post_datetime).fromNow()}`}
-                                </Text>
-
-                                <Badge color="gray" size={'xl'} variant="transparent" radius={'md'} rightSection={<Chat size={28} />}>
-                                    {productDiscussion.topic_posts_count}
-                                </Badge>
+                                    <Tooltip label={`${moment(productDiscussion.last_post_datetime).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
+                                        <Text fz="xs">
+                                            {` ${moment(productDiscussion.last_post_datetime).fromNow()}`}
+                                        </Text>
+                                    </Tooltip>
+                                    <Badge color="gray" size={'xl'} variant="transparent" radius={'md'} rightSection={<Chat size={28} />}>
+                                        {productDiscussion.topic_posts_count}
+                                    </Badge>
+                                </Group>
                             </Group>
-                        </Group>
-                    </Stack>
+                        </Stack>
+                    </StyledLink>
                 </Grid.Col>
             </Grid>
         </Card>
@@ -137,16 +146,22 @@ const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps
 const FeaturedDiscussions = ({ showTitle = true }: DiscussionProps) => {
     const titleComponent = () => {
         if (showTitle) {
-            return <Title label="Discussions"/>
+            return <Title label="Discussions" />
         }
         return null
     }
+
+    const discussions: IProductDiscussion[] = generateDiscussions()
+
     return (
         <Container fluid>
             <Stack gap="sm">
                 {titleComponent()}
                 {discussions.map((discussionItem) => (
-                    <ProductDiscussionItem key={discussionItem.id} productDiscussion={discussionItem} />
+                    <ProductDiscussionItem
+                        key={discussionItem.id}
+                        productDiscussion={discussionItem}
+                    />
                 ))}
             </Stack>
         </Container>

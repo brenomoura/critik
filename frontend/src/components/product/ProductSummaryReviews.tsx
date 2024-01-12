@@ -21,7 +21,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import MediaModal from '../shared/modal/MediaModal';
 import generateProduct from '../../mock_data/generate_product';
-import { useNavigate } from 'react-router-dom';
+import StyledLink from '../shared/StyledLink';
 
 
 interface UserReview {
@@ -47,23 +47,22 @@ interface ProductStatsComponentProps {
 }
 
 interface GridViewProps {
-    product: IProductItem, 
-    setPhotosModalOpened: any, 
-    setVideosModalOpened: any, 
-    videosCount: number, 
+    product: IProductItem,
+    setPhotosModalOpened: any,
+    setVideosModalOpened: any,
+    videosCount: number,
     photosCount: number
 }
 
 const ProductStatsComponent = ({ product }: ProductStatsComponentProps) => {
-    const navigate = useNavigate();
-    const redirectToDiscussionPageClick = () => navigate(`/product/${product.id}/discussions`);
-
     return (
         <Center>
             <Stack>
-                <Button mb={-100} mt={50} radius="md" variant="default" onClick={redirectToDiscussionPageClick}>
-                    Go To Product Discussions
-                </Button>
+                <StyledLink to={`/product/${product.id}/discussions`}>
+                    <Button mb={-100} mt={50} radius="md" variant="default">
+                        Go To Product Discussions
+                    </Button>
+                </StyledLink>
                 <Center>
                     <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={150} color="transparent">
                         <Title size={100}>{product.rating.toFixed(1)}</Title>
@@ -79,7 +78,7 @@ const ProductStatsComponent = ({ product }: ProductStatsComponentProps) => {
                                 Total Ratings
                             </Text>
                         </div>
-                        <div style={{ cursor: 'pointer' }} onClick={redirectToDiscussionPageClick}>
+                        <div>
                             <Text ta="center" fz="lg" fw={500}>
                                 {product.discussionsCount}
                             </Text>
@@ -221,8 +220,8 @@ const ProductSummaryReviews = () => {
     const gridViewProps: GridViewProps = {
         product: product,
         setPhotosModalOpened: setPhotosModalOpened,
-        setVideosModalOpened: setVideosModalOpened, 
-        photosCount: productPhotosUrls.length, 
+        setVideosModalOpened: setVideosModalOpened,
+        photosCount: productPhotosUrls.length,
         videosCount: productVideosUrls.length
     }
 

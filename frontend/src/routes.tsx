@@ -8,6 +8,7 @@ import Rankings from "./pages/Rankings"
 import SearchResults from "./pages/SearchResults"
 import UserProfile from "./pages/UserProfile"
 import ViolationReports from "./pages/ViolationReports"
+import ProductDiscussionThread from "./pages/ProductDiscussionThread"
 
 
 export const router = createBrowserRouter([
@@ -24,8 +25,12 @@ export const router = createBrowserRouter([
         element: <ProductDetails />
     },
     {
-        path: "/product/:id/discussions",
+        path: "/product/:productId/discussions",
         element: <ProductDiscussions />
+    },
+    {
+        path: "/product/:productId/discussions/:discussionId",
+        element: <ProductDiscussionThread />
     },
     {
         path: "/rankings",

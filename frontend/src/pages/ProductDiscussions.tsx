@@ -1,4 +1,4 @@
-import { Space, Grid, ScrollArea, em, Group, Select } from "@mantine/core"
+import { Space, Grid, ScrollArea, em, Group, Select, Container } from "@mantine/core"
 import ProductSummaryReviews from "../components/product/ProductSummaryDiscussions"
 import SearchBar from "../components/shared/SearchBar"
 import AddProductDiscusssion from "../components/form/ProductTopic"
@@ -6,11 +6,11 @@ import ProductDiscussions from "../components/product/ProductDiscussions"
 import { useMediaQuery } from "@mantine/hooks"
 
 interface ScrollAreaProductDiscussionProps {
-    isMobile: boolean
+    isPortable: boolean
 }
 
 
-const ScrollAreaProductDiscussion = ({ isMobile }: ScrollAreaProductDiscussionProps) => {
+const ScrollAreaProductDiscussion = ({ isPortable }: ScrollAreaProductDiscussionProps) => {
     return (
         <ScrollArea.Autosize mah='90vh' >
             <Group justify="flex-end">
@@ -23,7 +23,7 @@ const ScrollAreaProductDiscussion = ({ isMobile }: ScrollAreaProductDiscussionPr
                 />
                 <AddProductDiscusssion />
             </Group>
-            <ProductDiscussions isMobile={isMobile} />
+            <ProductDiscussions isPortable={isPortable} />
         </ScrollArea.Autosize>
     )
 }
@@ -35,7 +35,7 @@ const DesktopView = () => {
                 <ProductSummaryReviews isPortable={false} />
             </Grid.Col>
             <Grid.Col span={10}>
-                <ScrollAreaProductDiscussion isMobile={false} />
+                <ScrollAreaProductDiscussion isPortable={false} />
             </Grid.Col>
         </Grid>
     )
@@ -45,7 +45,7 @@ const PortableView = () => {
     return (
         <>
             <ProductSummaryReviews isPortable={true} />
-            <ScrollAreaProductDiscussion isMobile={true} />
+            <ScrollAreaProductDiscussion isPortable={true} />
         </>
     )
 }
@@ -57,8 +57,10 @@ const ProductDiscussion = () => {
     return (
         <div>
             <SearchBar />
-            <Space h="md" />
-            {mainComponent}
+            <div style={{ margin: 10 }}>
+                <Space h="md" />
+                {mainComponent}
+            </div>
         </div>
     )
 }

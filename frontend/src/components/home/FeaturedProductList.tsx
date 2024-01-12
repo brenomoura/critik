@@ -15,6 +15,8 @@ import { useState } from "react"
 import { Fire, AlignBottom, Star } from '@phosphor-icons/react'
 import Title from "../shared/Title"
 import generateFeaturedProducts from "../../mock_data/generate_featured_products"
+import { useNavigate } from "react-router-dom"
+import StyledLink from "../shared/StyledLink"
 
 interface FeaturedProductListprops {
     showTitle?: boolean
@@ -26,22 +28,27 @@ const FeaturedProductList = ({ showTitle = true }: FeaturedProductListprops) => 
     const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year' | 'all_time'>('today');
     const featuredProductList: IProductItem[] = generateFeaturedProducts()
 
+
     const rows = featuredProductList.map((featuredProductItem) => (
         <Table.Tr key={featuredProductItem.id}>
             <Table.Td>
-                <Group gap="sm">
-                    <Avatar size={100} src={featuredProductItem.avatar} radius={40} />
-                    <div>
-                        <Text fz="xl" fw={700}>
-                            {featuredProductItem.name}
-                        </Text>
-                    </div>
-                </Group>
+                <StyledLink to={`/product/${featuredProductItem.id}`}>
+                    <Group gap="sm">
+                        <Avatar size={100} src={featuredProductItem.avatar} radius={40} />
+                        <div>
+                            <Text fz="xl" fw={700}>
+                                {featuredProductItem.name}
+                            </Text>
+                        </div>
+                    </Group>
+                </StyledLink>
             </Table.Td>
             <Table.Td>
-                <Badge leftSection={<Star style={{ width: rem(12), height: rem(12) }} />} py={15} color="transparent">
-                    <Text fz="xl" fw={800}>{featuredProductItem.rating.toFixed(1)}</Text>
-                </Badge>
+                <StyledLink to={`/product/${featuredProductItem.id}`}>
+                    <Badge leftSection={<Star style={{ width: rem(12), height: rem(12) }} />} py={15} color="transparent">
+                        <Text fz="xl" fw={800}>{featuredProductItem.rating.toFixed(1)}</Text>
+                    </Badge>
+                </StyledLink>
             </Table.Td>
         </Table.Tr>
     ));
