@@ -1,4 +1,4 @@
-import { Collapse, Group, RangeSlider, Select, Space, Text } from "@mantine/core"
+import { Center, Collapse, Group, RangeSlider, Select, Space, Text } from "@mantine/core"
 import AddProductReview from "../components/form/ProductReviewForm"
 import ProductReviewList from "../components/product/ProductReviewList"
 import ProductSummaryHorizontal from "../components/product/ProductSummaryReviews"
@@ -47,8 +47,10 @@ const ProductDetails = () => {
                 />
                 <AddProductReview />
             </Group>
-            <Collapse in={collpaseOpened} p={10}>
-                <Text>Filter by Rating</Text>
+            <Collapse in={collpaseOpened} py={10} px={100}>
+                <Center>
+                    <Text>Filter by Rating</Text>
+                </Center>
                 <RangeSlider
                     minRange={0}
                     min={0}

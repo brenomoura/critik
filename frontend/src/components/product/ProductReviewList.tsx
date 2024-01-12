@@ -118,7 +118,7 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
     }
 
     return (
-        <Paper withBorder style={{ padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)" }}>
+        <Paper withBorder style={{ padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)" }} m={15}>
             <Stack
                 justify="flex-end"
             >
