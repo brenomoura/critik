@@ -8,12 +8,15 @@ import {
     Group,
     Avatar,
     Container,
-    Tooltip
+    Tooltip,
+    rem
 } from "@mantine/core"
 import SearchBar from "../components/shared/SearchBar"
-import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react"
+import { ListPlus, ThumbsDown, ThumbsUp } from "@phosphor-icons/react"
 import moment from "moment";
 import generateProductDiscussions from "../mock_data/generate_product_discussions";
+import { useState } from "react";
+import ProductDiscussionFormModal from "../components/form/modal/ProductDiscussionFormModal";
 
 
 interface IDiscussionMessage {
@@ -28,11 +31,13 @@ interface IDiscussionMessage {
 
 
 interface DiscussionMessageProps {
-    productDiscussion: IDiscussionMessage
+    discussionMessage: IDiscussionMessage
+    setReplyModalOpened: any
+    isFirst: boolean
 }
 
 
-const DiscussionMessage = ({ productDiscussion: discussionMessage }: DiscussionMessageProps) => {
+const DiscussionMessage = ({ discussionMessage, setReplyModalOpened, isFirst }: DiscussionMessageProps) => {
     return (
         <Paper
             withBorder
@@ -66,10 +71,21 @@ const DiscussionMessage = ({ productDiscussion: discussionMessage }: DiscussionM
                     </Text>
                 </div>
                 <div style={{ marginLeft: 60 }}>
-                    <Button.Group>
-                        <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{discussionMessage.likeCount}</Button>
-                        <Button variant="transparent" color="gray" leftSection={<ThumbsDown />}>{discussionMessage.deslikeCount}</Button>
-                    </Button.Group>
+                    <Group justify="space-between">
+                        <Button.Group>
+                            <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{discussionMessage.likeCount}</Button>
+                            <Button variant="transparent" color="gray" leftSection={<ThumbsDown />}>{discussionMessage.deslikeCount}</Button>
+                        </Button.Group>
+                        {isFirst
+                            ? null
+                            : <Button
+                                leftSection={<ListPlus style={{ width: rem(20), height: rem(20) }} />}
+                                onClick={() => setReplyModalOpened(true)}
+                                variant="default"
+                            >
+                                Reply
+                            </Button>}
+                    </Group>
                 </div>
             </Stack>
         </Paper>
@@ -78,28 +94,46 @@ const DiscussionMessage = ({ productDiscussion: discussionMessage }: DiscussionM
 
 const ProductDiscussionThread = () => {
     const productDiscussionThread = generateProductDiscussions()
+    const [modalReplyOpened, setReplyModalOpened] = useState<true | false>(false)
 
     return (
         <div>
             <SearchBar />
             <Space h="md" />
             <Container>
-                <Title
-                    order={2}
-                    size="h4"
-                    style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
-                    ta="left"
-                    mt={20}
-                    mb={10}
-                >
-                    {productDiscussionThread.discussion_name}
-                </Title>
-
-                {productDiscussionThread.messages.map(discussionMessage => (
-                    <DiscussionMessage productDiscussion={discussionMessage} key={discussionMessage.id} />
+                <Group justify="space-between">
+                    <Title
+                        order={2}
+                        size="h4"
+                        style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
+                        ta="left"
+                        mt={20}
+                        mb={10}
+                    >
+                        {productDiscussionThread.discussion_name}
+                    </Title>
+                    <Button
+                        leftSection={<ListPlus style={{ width: rem(20), height: rem(20) }} />}
+                        onClick={() => setReplyModalOpened(true)}
+                    >
+                        Post Reply
+                    </Button>
+                </Group>
+                {productDiscussionThread.messages.map((discussionMessage, index) => (
+                    <DiscussionMessage
+                        discussionMessage={discussionMessage}
+                        key={discussionMessage.id}
+                        setReplyModalOpened={setReplyModalOpened}
+                        isFirst={index === 0}
+                    />
                 ))}
             </Container>
-
+            <ProductDiscussionFormModal
+                opened={modalReplyOpened}
+                setOpened={setReplyModalOpened}
+                modalTitle='Post a reply'
+                isReply={true}
+            />
         </div>
     )
 }

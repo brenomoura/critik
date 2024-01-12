@@ -19,9 +19,11 @@ import { useForm } from '@mantine/form';
 interface ProductReviewFormProps {
     opened: boolean,
     setOpened: any,
+    modalTitle: string,
+    isReply: boolean
 }
 
-const ProductDiscussionFormModal = ({ opened, setOpened }: ProductReviewFormProps) => {
+const ProductDiscussionFormModal = ({ opened, setOpened, modalTitle, isReply = false }: ProductReviewFormProps) => {
     const content: string = ""
     const editor = useEditor({
         extensions: [
@@ -48,21 +50,22 @@ const ProductDiscussionFormModal = ({ opened, setOpened }: ProductReviewFormProp
         <Modal
             opened={opened}
             onClose={() => setOpened(false)}
-            title="Create a discussion about the product"
+            title={modalTitle}
             size="xl"
-            fullScreen
+            fullScreen={!isReply}
         >
             <form onSubmit={form.onSubmit(() => { })} style={{ padding: 10 }}>
-                <TextInput
-                    label="Title"
-                    placeholder="Discussion Title"
-                    mt="md"
-                    name="subject"
-                    variant="filled"
-                    {...form.getInputProps('title')}
-                />
-                <Space h='xl' />
-                {"Discussion"}
+                {isReply
+                    ? null
+                    : <TextInput
+                        label="Title"
+                        placeholder="Discussion Title"
+                        my="md"
+                        name="subject"
+                        variant="filled"
+                        {...form.getInputProps('title')}
+                    />
+                }
                 <RichTextEditor editor={editor}>
                     <RichTextEditor.Toolbar sticky stickyOffset={60}>
                         <RichTextEditor.ControlsGroup>
@@ -113,7 +116,7 @@ const ProductDiscussionFormModal = ({ opened, setOpened }: ProductReviewFormProp
                 </RichTextEditor>
                 <Group justify="left" mt="xl">
                     <Button type="submit" size="md">
-                        Create discussion
+                        Submit
                     </Button>
                 </Group>
             </form>
