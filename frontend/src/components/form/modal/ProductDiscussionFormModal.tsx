@@ -3,7 +3,6 @@ import {
     Button,
     Modal,
     TextInput,
-    Space
 } from '@mantine/core';
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';

@@ -1,7 +1,7 @@
 import { Button, rem } from '@mantine/core';
 import { NotePencil } from '@phosphor-icons/react'
 import { useState } from 'react';
-import ProductDiscussionFormModal from './modal/ProductDiscussionFormModal';
+import ProductDiscussionFormModal from '../form/modal/ProductDiscussionFormModal';
 
 // TODO - Create a confirm modal to avoid user miss click when he is creating/editing the discussion
 

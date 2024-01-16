@@ -1,7 +1,7 @@
 import { Space, Grid, ScrollArea, em, Group, Select, Container } from "@mantine/core"
 import ProductSummaryReviews from "../components/product/ProductSummaryDiscussions"
 import SearchBar from "../components/shared/SearchBar"
-import AddProductDiscusssion from "../components/form/ProductTopic"
+import AddProductDiscusssion from "../components/product/AddProductDiscussion"
 import ProductDiscussions from "../components/product/ProductDiscussions"
 import { useMediaQuery } from "@mantine/hooks"
 
