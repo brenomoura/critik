@@ -10,12 +10,16 @@ interface IProductDiscussion {
     likeCount: number,
     deslikeCount: number,
     topicTitle: string,
+    productId: number
+    discussionId: number
 }
 
 
 const generateDiscussion = (): IProductDiscussion => {
     const review: IProductDiscussion = {
         id: faker.number.int(),
+        productId: faker.number.int(),
+        discussionId: faker.number.int(),
         topicTitle: faker.lorem.sentences(),
         username: faker.internet.userName(),
         userAvatarUrl: faker.image.url(),

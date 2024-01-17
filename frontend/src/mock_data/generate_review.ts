@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 interface UserReview {
     id: number,
+    product_id: number,
     username: string,
     user_avatar_url: string,
     review: string,
@@ -28,6 +29,7 @@ const generateUserReview = (): UserReview => {
         id: faker.number.int(),
         username: faker.internet.userName(),
         user_avatar_url: faker.image.url(),
+        product_id: faker.number.int(),
         review: faker.lorem.text(),
         user_rating: faker.number.int({ min: 1, max: 10 }),
         created_at: faker.date.past().toISOString(),

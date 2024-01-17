@@ -2,6 +2,7 @@ import { Card, Avatar, Text, Group, Center } from '@mantine/core';
 import classes from './UserDetailsSummary.module.css';
 import generateUser from '../../mock_data/generate_user';
 import IUser from '../../types/userInterface';
+import moment from 'moment';
 
 
 interface UserSummaryProps {
@@ -24,6 +25,12 @@ const UserDetailsSummaryDesktop = ({ user }: UserSummaryProps) => {
             </Text>
             <Text ta="center" fz="sm" c="dimmed">
                 {user.ranking}
+            </Text>
+            <Text ta="center" fz="sm" fw={500} mt="sm" c="dimmed">
+                Registered at
+            </Text>
+            <Text ta="center" fz="sm" fw={500}>
+                {`${moment(user.registerDatetime).format('MMMM Do YYYY')}`}
             </Text>
             <Group mt="md" justify="center" gap={30}>
                 <div>
@@ -58,14 +65,24 @@ const UserDetailsSummaryPortable = ({ user }: UserSummaryProps) => {
                     radius="md"
                 />
                 <div>
-                    <div>
-                        <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-                            {user.ranking}
-                        </Text>
-                        <Text fz="lg" fw={500} className={classes.name}>
-                            {user.username}
-                        </Text>
-                    </div>
+                    <Group gap={30}>
+                        <div>
+                            <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
+                                {user.ranking}
+                            </Text>
+                            <Text fz="lg" fw={500} className={classes.name}>
+                                {user.username}
+                            </Text>
+                        </div>
+                        <div>
+                            <Text fz="xs" fw={700} c="dimmed">
+                                Registered at
+                            </Text>
+                            <Text fz="xs" fw={500} className={classes.name}>
+                                {`${moment(user.registerDatetime).format('MMMM Do YYYY')}`}
+                            </Text>
+                        </div>
+                    </Group>
 
                     <Group mt="md" justify="center" gap={30}>
                         <div>
@@ -91,7 +108,7 @@ const UserDetailsSummaryPortable = ({ user }: UserSummaryProps) => {
     )
 }
 
-const UserDetailsSummary = ({ isPortable }: { isPortable: boolean }) => {
+const UserDetailsSummary = ({ isPortable }: { isPortable: boolean | undefined }) => {
     const user = generateUser()
 
     const userDetailsSummaryProps: UserSummaryProps = {

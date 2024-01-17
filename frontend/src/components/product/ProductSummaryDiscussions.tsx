@@ -130,7 +130,7 @@ const ProductSummaryDiscussionsPortable = ({ product, reviewsPageRoute }: Produc
     )
 }
 
-const ProductSummaryDiscussions = ({ isPortable }: { isPortable: boolean }) => {
+const ProductSummaryDiscussions = ({ isPortable }: { isPortable: boolean | undefined }) => {
     const product = generateProduct()
 
     const productSummaryProps: ProductSummaryDiscussionsProps = {

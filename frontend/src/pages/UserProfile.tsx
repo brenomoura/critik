@@ -14,16 +14,23 @@ import generateUsersPosts from "../mock_data/generate_user_posts"
 import UserPostList from "../components/user/UserPostList"
 
 
+interface ViewProps {
+    scrollAreaProductDiscussionComponent: any
+    userDetailsSummaryComponent: any
+    isAdmin: boolean
+}
+
+
 const ScrollAreaProductDiscussion = () => {
     const userReviews = generateMain()
     const userPosts = generateUsersPosts()
 
     return (
         <ScrollArea.Autosize mah='90vh' >
-            <Tabs defaultValue="first">
+            <Tabs defaultValue="reviews">
                 <Tabs.List grow>
                     <Tabs.Tab value="reviews">
-                        Reviews
+                        Reviews and Reviews Comments
                     </Tabs.Tab>
                     <Tabs.Tab value="posts">
                         Posts
@@ -40,31 +47,39 @@ const ScrollAreaProductDiscussion = () => {
     )
 }
 
-const DesktopView = () => {
+const DesktopView = ({ scrollAreaProductDiscussionComponent, userDetailsSummaryComponent, isAdmin }: ViewProps) => {
     return (
         <Grid>
             <Grid.Col span={2}>
-                <UserDetailsSummary isPortable={false} />
+                {userDetailsSummaryComponent}
             </Grid.Col>
             <Grid.Col span={10}>
-                <ScrollAreaProductDiscussion />
+                {scrollAreaProductDiscussionComponent}
             </Grid.Col>
         </Grid>
     )
 }
 
-const PortableView = () => {
+const PortableView = ({ scrollAreaProductDiscussionComponent, userDetailsSummaryComponent, isAdmin }: ViewProps) => {
     return (
         <>
-            <UserDetailsSummary isPortable={true} />
-            <ScrollAreaProductDiscussion />
+            {userDetailsSummaryComponent}
+            {scrollAreaProductDiscussionComponent}
         </>
     )
 }
 
 const UserProfile = () => {
     const isPortable = useMediaQuery(`(max-width: ${em(1300)})`);
-    const mainComponent = isPortable ? <PortableView /> : <DesktopView />
+
+    const isAdmin = false
+
+    const scrollAreaProductDiscussionComponent = <ScrollAreaProductDiscussion />
+    const userDetailsSummary = <UserDetailsSummary isPortable={isPortable} />
+
+    const mainComponent = isPortable
+        ? <PortableView scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} userDetailsSummaryComponent={userDetailsSummary} isAdmin={isAdmin} />
+        : <DesktopView scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} userDetailsSummaryComponent={userDetailsSummary} isAdmin={isAdmin} />
 
     return (
         <div>

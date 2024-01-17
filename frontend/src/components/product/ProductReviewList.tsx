@@ -15,15 +15,17 @@ import {
     Button,
     Tooltip
 } from "@mantine/core";
-import { Star, ThumbsUp, ThumbsDown } from '@phosphor-icons/react'
+import { Star, ThumbsUp, ThumbsDown, Siren } from '@phosphor-icons/react'
 import moment from "moment";
 import MediaModal from "../shared/modal/MediaModal";
 import { useState } from "react";
+import ReportFormModal from "../form/modal/ReportFormModal";
 
 
 
 // The same interface from the API
 interface IUserReviewAnswer {
+    id: number
     username: string,
     user_avatar_url: string,
     comment: string,
@@ -70,9 +72,11 @@ interface ProductReviewListProps {
     userReviews: UserReview[]
 }
 
-const UserReviewAnswer = ({ username, user_avatar_url, comment, created_at }: IUserReviewAnswer) => {
+const UserReviewAnswer = ({ id, username, user_avatar_url, comment, created_at }: IUserReviewAnswer) => {
+    const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
+
     return (
-        <>
+        <section id={`${id}`}>
             <Divider my="xs" color="gray" style={{ marginLeft: 30 }} />
             <div style={{ marginLeft: 30 }}>
                 <Group>
@@ -90,16 +94,25 @@ const UserReviewAnswer = ({ username, user_avatar_url, comment, created_at }: IU
                         </Tooltip>
                     </div>
                 </Group>
-                <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
-                    {comment}
-                </Text>
+                <Group justify="space-between">
+                    <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
+                        {comment}
+                    </Text>
+                    <Button variant="transparent" color="gray" leftSection={<Siren />} onClick={() => setReportModalOpened(true)}>
+                        <Text size="xs" c="dimmed">
+                            Report
+                        </Text>
+                    </Button>
+                </Group>
             </div>
-        </>
+            <ReportFormModal opened={reportModalOpened} setOpened={setReportModalOpened} />
+        </section>
     )
 }
 
 const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers, mediaUrls, likeCount, deslikeCount }: UserReviewProps) => {
     const [mediaModalOpened, setMediaModalOpened] = useState<true | false>(false);
+    const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
     const [initialSlideIndex, setInitialSlideIndex] = useState<number | undefined>()
 
     const mediaComponent = (url: string) => {
@@ -164,23 +177,30 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                         </Center>
                     </Grid.Col>
                 </Grid>
-                <div style={{ marginLeft: 50 }}>
+                <Group ml={50} justify="space-between">
                     <Button.Group>
                         <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{likeCount}</Button>
                         <Button variant="transparent" color="gray" leftSection={<ThumbsDown />}>{deslikeCount}</Button>
                     </Button.Group>
-                </div>
+                    <Button variant="transparent" color="gray" leftSection={<Siren />} onClick={() => setReportModalOpened(true)}>
+                        <Text size="xs" c="dimmed">
+                            Report
+                        </Text>
+                    </Button>
+                </Group>
             </Stack>
             {answers.map((answer, index) => (
-                <UserReviewAnswer
-                    key={index}
-                    username={answer.username}
-                    user_avatar_url={answer.user_avatar_url}
-                    comment={answer.comment}
-                    created_at={answer.created_at}
-                />
+                    <UserReviewAnswer
+                        key={index}
+                        id={answer.id}
+                        username={answer.username}
+                        user_avatar_url={answer.user_avatar_url}
+                        comment={answer.comment}
+                        created_at={answer.created_at}
+                    />
             ))}
             <MediaModal opened={mediaModalOpened} setOpened={setMediaModalOpened} mediaUrls={mediaUrls} initialSlideIndex={initialSlideIndex} />
+            <ReportFormModal opened={reportModalOpened} setOpened={setReportModalOpened} />
         </Paper>
     );
 }
@@ -190,18 +210,20 @@ const ProductReviewList = ({ userReviews }: ProductReviewListProps) => {
     return (
         <>
             {userReviews.map(userReview => (
-                <UserReview
-                    key={userReview.id}
-                    username={userReview.username}
-                    userAvatarUrl={userReview.user_avatar_url}
-                    createdAt={userReview.created_at}
-                    review={userReview.review}
-                    score={userReview.user_rating}
-                    answers={userReview.answers}
-                    mediaUrls={[...userReview.photos_urls, ...userReview.videos_urls]}
-                    likeCount={userReview.likeCount}
-                    deslikeCount={userReview.deslikeCount}
-                />
+                <section id={`${userReview.id}`}>
+                    <UserReview
+                        key={userReview.id}
+                        username={userReview.username}
+                        userAvatarUrl={userReview.user_avatar_url}
+                        createdAt={userReview.created_at}
+                        review={userReview.review}
+                        score={userReview.user_rating}
+                        answers={userReview.answers}
+                        mediaUrls={[...userReview.photos_urls, ...userReview.videos_urls]}
+                        likeCount={userReview.likeCount}
+                        deslikeCount={userReview.deslikeCount}
+                    />
+                </section>
             ))}
         </>
     )

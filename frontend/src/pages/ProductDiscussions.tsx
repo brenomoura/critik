@@ -1,4 +1,11 @@
-import { Space, Grid, ScrollArea, em, Group, Select, Container } from "@mantine/core"
+import { 
+    Space, 
+    Grid, 
+    ScrollArea, 
+    em, 
+    Group, 
+    Select 
+} from "@mantine/core"
 import ProductSummaryReviews from "../components/product/ProductSummaryDiscussions"
 import SearchBar from "../components/shared/SearchBar"
 import AddProductDiscusssion from "../components/product/AddProductDiscussion"
@@ -7,6 +14,11 @@ import { useMediaQuery } from "@mantine/hooks"
 
 interface ScrollAreaProductDiscussionProps {
     isPortable: boolean
+}
+
+interface ViewProps {
+    scrollAreaProductDiscussionComponent: any
+    productSummaryReviewsComponent: any
 }
 
 
@@ -28,31 +40,44 @@ const ScrollAreaProductDiscussion = ({ isPortable }: ScrollAreaProductDiscussion
     )
 }
 
-const DesktopView = () => {
+const DesktopView = ({ productSummaryReviewsComponent, scrollAreaProductDiscussionComponent }: ViewProps) => {
     return (
         <Grid>
             <Grid.Col span={2}>
-                <ProductSummaryReviews isPortable={false} />
+                {productSummaryReviewsComponent}
             </Grid.Col>
             <Grid.Col span={10}>
-                <ScrollAreaProductDiscussion isPortable={false} />
+                {scrollAreaProductDiscussionComponent}
             </Grid.Col>
         </Grid>
     )
 }
 
-const PortableView = () => {
+const PortableView = ({ productSummaryReviewsComponent, scrollAreaProductDiscussionComponent }: ViewProps) => {
     return (
         <>
-            <ProductSummaryReviews isPortable={true} />
-            <ScrollAreaProductDiscussion isPortable={true} />
+            {productSummaryReviewsComponent}
+            {scrollAreaProductDiscussionComponent}
         </>
     )
 }
 
 const ProductDiscussion = () => {
     const isPortable = useMediaQuery(`(max-width: ${em(1800)})`);
-    const mainComponent = isPortable ? <PortableView /> : <DesktopView />
+
+    const productSummaryReviewsComponent = <ProductSummaryReviews isPortable={isPortable} />
+    const scrollAreaProductDiscussionComponent = <ScrollAreaProductDiscussion isPortable={true} />
+
+
+    const mainComponent = isPortable
+        ? <PortableView 
+            productSummaryReviewsComponent={productSummaryReviewsComponent} 
+            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} 
+          />
+        : <DesktopView 
+            productSummaryReviewsComponent={productSummaryReviewsComponent} 
+            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} 
+          />
 
     return (
         <div>
