@@ -4,6 +4,7 @@ interface IProductDiscussion {
     id: number,
     userAvatarUrl: string,
     username: string,
+    userId: number,
     createdAt: string,
     updatedAt: string,
     content: string,
@@ -15,6 +16,7 @@ interface IProductDiscussion {
 const generateDiscussion = (): IProductDiscussion => {
     const review: IProductDiscussion = {
         id: faker.number.int(),
+        userId: faker.number.int(),
         username: faker.internet.userName(),
         userAvatarUrl: faker.image.url(),
         likeCount: faker.number.int({ min: 12, max: 143 }),

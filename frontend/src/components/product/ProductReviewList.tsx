@@ -20,6 +20,7 @@ import moment from "moment";
 import MediaModal from "../shared/modal/MediaModal";
 import { useState } from "react";
 import ReportFormModal from "../form/modal/ReportFormModal";
+import StyledLink from "../shared/StyledLink";
 
 
 
@@ -34,6 +35,7 @@ interface IUserReviewAnswer {
 
 interface UserReviewProps {
     username: string,
+    userId: number,
     userAvatarUrl: string,
     createdAt: string,
     review: string,
@@ -46,6 +48,7 @@ interface UserReviewProps {
 
 interface UserReview {
     id: number,
+    user_id: number,
     username: string,
     user_avatar_url: string,
     review: string,
@@ -110,7 +113,7 @@ const UserReviewAnswer = ({ id, username, user_avatar_url, comment, created_at }
     )
 }
 
-const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers, mediaUrls, likeCount, deslikeCount }: UserReviewProps) => {
+const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score, answers, mediaUrls, likeCount, deslikeCount }: UserReviewProps) => {
     const [mediaModalOpened, setMediaModalOpened] = useState<true | false>(false);
     const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
     const [initialSlideIndex, setInitialSlideIndex] = useState<number | undefined>()
@@ -138,11 +141,13 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                 <Grid>
                     <Grid.Col span="auto">
                         <Group>
-                            <Avatar
-                                src={userAvatarUrl}
-                                alt={username}
-                                radius="xl"
-                            />
+                            <StyledLink to={`/profile/${userId}`}>
+                                <Avatar
+                                    src={userAvatarUrl}
+                                    alt={username}
+                                    radius="xl"
+                                />
+                            </StyledLink>
                             <div>
                                 <Text size="sm">{username}</Text>
                                 <Tooltip label={`${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
@@ -190,14 +195,14 @@ const UserReview = ({ username, userAvatarUrl, createdAt, review, score, answers
                 </Group>
             </Stack>
             {answers.map((answer, index) => (
-                    <UserReviewAnswer
-                        key={index}
-                        id={answer.id}
-                        username={answer.username}
-                        user_avatar_url={answer.user_avatar_url}
-                        comment={answer.comment}
-                        created_at={answer.created_at}
-                    />
+                <UserReviewAnswer
+                    key={index}
+                    id={answer.id}
+                    username={answer.username}
+                    user_avatar_url={answer.user_avatar_url}
+                    comment={answer.comment}
+                    created_at={answer.created_at}
+                />
             ))}
             <MediaModal opened={mediaModalOpened} setOpened={setMediaModalOpened} mediaUrls={mediaUrls} initialSlideIndex={initialSlideIndex} />
             <ReportFormModal opened={reportModalOpened} setOpened={setReportModalOpened} />
@@ -210,10 +215,11 @@ const ProductReviewList = ({ userReviews }: ProductReviewListProps) => {
     return (
         <>
             {userReviews.map(userReview => (
-                <section id={`${userReview.id}`}>
+                <section id={`${userReview.id}`} key={userReview.id}>
                     <UserReview
                         key={userReview.id}
                         username={userReview.username}
+                        userId={userReview.user_id}
                         userAvatarUrl={userReview.user_avatar_url}
                         createdAt={userReview.created_at}
                         review={userReview.review}

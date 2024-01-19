@@ -18,12 +18,14 @@ import generateProductDiscussions from "../mock_data/generate_product_discussion
 import { useState } from "react";
 import ProductDiscussionFormModal from "../components/form/modal/ProductDiscussionFormModal";
 import ReportFormModal from "../components/form/modal/ReportFormModal";
+import StyledLink from "../components/shared/StyledLink";
 
 
 interface IDiscussionMessage {
     id: number
     userAvatarUrl: string,
     username: string,
+    userId: number,
     createdAt: string,
     content: string,
     likeCount: number,
@@ -63,12 +65,14 @@ const DiscussionMessage = ({ postId, discussionMessage, setReplyModalOpened, set
             >
                 <Stack justify="flex-end">
                     <Group>
-                        <Avatar
-                            src={discussionMessage.userAvatarUrl}
-                            alt={discussionMessage.username}
-                            radius="xl"
-                            size="lg"
-                        />
+                        <StyledLink to={`/profile/${discussionMessage.userId}`}>
+                            <Avatar
+                                src={discussionMessage.userAvatarUrl}
+                                alt={discussionMessage.username}
+                                radius="xl"
+                                size="lg"
+                            />
+                        </StyledLink>
                         <div>
                             <Text size="sm">{discussionMessage.username}</Text>
                             <Tooltip label={`${moment(discussionMessage.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">

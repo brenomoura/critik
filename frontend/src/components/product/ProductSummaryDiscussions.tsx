@@ -1,10 +1,8 @@
-import { Card, Avatar, Text, Group, Button, Badge, rem, em, Center } from '@mantine/core';
+import { Card, Avatar, Text, Group, Button, Badge, rem, Center } from '@mantine/core';
 import classes from './ProductSummaryDiscussions.module.css';
 import generateProduct from '../../mock_data/generate_product';
 import { Star } from '@phosphor-icons/react';
 import IProductItem from '../../types/productItemInterface';
-import { useMediaQuery } from '@mantine/hooks';
-import { useNavigate } from 'react-router-dom';
 import StyledLink from '../shared/StyledLink';
 
 

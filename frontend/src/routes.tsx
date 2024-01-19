@@ -45,15 +45,20 @@ export const router = createBrowserRouter([
         element: <SearchResults />
     },
     {
-        path: "/admin/products",
-        element: <ProductApproval />
-    },
-    {
-        path: "/admin/product/add",
-        element: <ProductFormPage />
-    },
-    {
-        path: "/admin/violation-reports",
-        element: <ViolationReports />
+        path: "/admin",
+        children: [
+            {
+                path: "products",
+                element: <ProductApproval />
+            },
+            {
+                path: "product/add",
+                element: <ProductFormPage />
+            },
+            {
+                path: "violation-reports",
+                element: <ViolationReports />
+            },
+        ],
     },
 ])

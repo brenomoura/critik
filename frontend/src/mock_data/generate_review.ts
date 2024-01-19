@@ -5,6 +5,7 @@ interface UserReview {
     product_id: number,
     product_name: string,
     username: string,
+    user_id: number,
     user_avatar_url: string,
     review: string,
     user_rating: number,
@@ -29,6 +30,7 @@ const generateUserReview = (): UserReview => {
     const review: UserReview = {
         id: faker.number.int(),
         username: faker.internet.userName(),
+        user_id: faker.number.int(),
         user_avatar_url: faker.image.url(),
         product_id: faker.number.int(),
         product_name: faker.commerce.product(),
