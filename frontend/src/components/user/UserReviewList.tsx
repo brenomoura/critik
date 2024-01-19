@@ -23,23 +23,13 @@ import ReportFormModal from "../form/modal/ReportFormModal";
 
 
 // The same interface from the API
-interface IUserReviewAnswer {
-    id: number
-    username: string,
-    user_avatar_url: string,
-    comment: string,
-    created_at: string
-}
-
-interface UserReviewAndAnswersProps {
+interface UserReviewCommentProps {
     id: number,
-    username: string,
-    userAvatarUrl: string,
     createdAt: string,
     review: string,
     score: number,
     productId: number,
-    answers: IUserReviewAnswer[]
+    productName: string,
     mediaUrls: string[],
     likeCount: number,
     deslikeCount: number
@@ -57,6 +47,7 @@ interface UserReview {
     videos_urls: string[],
     answers: UserReviewAnswer[],
     product_id: number,
+    product_name: string,
     likeCount: number,
     deslikeCount: number,
 }
@@ -75,7 +66,7 @@ interface UserReviewListProps {
 }
 
 
-const UserReviewAndAnswers = ({ id, createdAt, review, score, mediaUrls, likeCount, deslikeCount, productId, answers }: UserReviewAndAnswersProps) => {
+const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslikeCount, productId, productName }: UserReviewCommentProps) => {
     const [mediaModalOpened, setMediaModalOpened] = useState<true | false>(false);
     const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
     const [initialSlideIndex, setInitialSlideIndex] = useState<number | undefined>()
@@ -107,6 +98,9 @@ const UserReviewAndAnswers = ({ id, createdAt, review, score, mediaUrls, likeCou
                             <StyledLink to={`/product/${productId}/#${id}`}>
                                 <Group>
                                     <div>
+                                        <Text size="xs" c="dimmed">
+                                            {productName}
+                                        </Text>
                                         <Tooltip label={`${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
                                             <Text size="xs" c="dimmed">
                                                 {`${moment(createdAt).fromNow()}`}
@@ -155,39 +149,6 @@ const UserReviewAndAnswers = ({ id, createdAt, review, score, mediaUrls, likeCou
                     </Group>
                 </Stack>
             </Paper>
-            {answers.map((answer) => {
-                return <Paper withBorder style={{ padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)" }} m={15}>
-                    <Stack
-                        justify="flex-end"
-                    >
-                        <Grid>
-                            <Grid.Col span="auto">
-                                <StyledLink to={`/product/${productId}/#${answer.id}`}>
-                                    <Group>
-                                        <div>
-                                            <Tooltip label={`${moment(answer.created_at).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
-                                                <Text size="xs" c="dimmed">
-                                                    {`${moment(answer.created_at).fromNow()}`}
-                                                </Text>
-                                            </Tooltip>
-                                        </div>
-                                    </Group>
-                                    <Text pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
-                                        {answer.comment}
-                                    </Text>
-                                </StyledLink>
-                            </Grid.Col>
-                        </Grid>
-                        <Group justify="end">
-                            <Button variant="transparent" color="gray" leftSection={<Siren />} onClick={() => setReportModalOpened(true)}>
-                                <Text size="xs" c="dimmed">
-                                    Report
-                                </Text>
-                            </Button>
-                        </Group>
-                    </Stack>
-                </Paper>
-            })}
             <MediaModal opened={mediaModalOpened} setOpened={setMediaModalOpened} mediaUrls={mediaUrls} initialSlideIndex={initialSlideIndex} />
             <ReportFormModal opened={reportModalOpened} setOpened={setReportModalOpened} />
         </div>
@@ -198,16 +159,14 @@ const UserReviewList = ({ userReviews }: UserReviewListProps) => {
     return (
         <>
             {userReviews.map(userReview => (
-                <UserReviewAndAnswers
+                <UserReview
                     key={userReview.id}
                     id={userReview.id}
                     productId={userReview.product_id}
-                    username={userReview.username}
-                    userAvatarUrl={userReview.user_avatar_url}
+                    productName={userReview.product_name}
                     createdAt={userReview.created_at}
                     review={userReview.review}
                     score={userReview.user_rating}
-                    answers={userReview.answers}
                     mediaUrls={[...userReview.photos_urls, ...userReview.videos_urls]}
                     likeCount={userReview.likeCount}
                     deslikeCount={userReview.deslikeCount}

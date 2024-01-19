@@ -3,11 +3,11 @@ import AddProductReview from "../components/form/ProductReviewForm"
 import ProductReviewList from "../components/product/ProductReviewList"
 import ProductSummaryHorizontal from "../components/product/ProductSummaryReviews"
 import SearchBar from "../components/shared/SearchBar"
-import generateMain from "../mock_data/generate_review"
+import generateReviews from "../mock_data/generate_review"
 import { useEffect, useState } from "react"
 
 const ProductDetails = () => {
-    const userReviews = generateMain()
+    const userReviews = generateReviews()
 
     const [reviewsFilterValue, setReviewsFilterValue] = useState<string | null>('');
     const [collpaseOpened, setCollpaseOpened] = useState<boolean>(false);

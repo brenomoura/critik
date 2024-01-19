@@ -8,10 +8,12 @@ import {
 import SearchBar from "../components/shared/SearchBar"
 import UserDetailsSummary from "../components/user/UserDetailsSummary"
 import UserReviewList from "../components/user/UserReviewList"
-import generateMain from "../mock_data/generate_review"
+import generateReviews from "../mock_data/generate_review"
 import { useMediaQuery } from "@mantine/hooks"
 import generateUsersPosts from "../mock_data/generate_user_posts"
 import UserPostList from "../components/user/UserPostList"
+import UserReviewCommentList from "../components/user/UserReviewCommentList"
+import generateUserReviewComments from "../mock_data/generate_review_comments"
 
 
 interface ViewProps {
@@ -22,15 +24,19 @@ interface ViewProps {
 
 
 const ScrollAreaProductDiscussion = () => {
-    const userReviews = generateMain()
+    const userReviews = generateReviews()
     const userPosts = generateUsersPosts()
+    const userReviewComments = generateUserReviewComments()
 
     return (
         <ScrollArea.Autosize mah='90vh' >
             <Tabs defaultValue="reviews">
                 <Tabs.List grow>
                     <Tabs.Tab value="reviews">
-                        Reviews and Reviews Comments
+                        Reviews
+                    </Tabs.Tab>
+                    <Tabs.Tab value="reviews_comments">
+                        Reviews Comments
                     </Tabs.Tab>
                     <Tabs.Tab value="posts">
                         Posts
@@ -38,6 +44,9 @@ const ScrollAreaProductDiscussion = () => {
                 </Tabs.List>
                 <Tabs.Panel value="reviews">
                     <UserReviewList userReviews={userReviews} />
+                </Tabs.Panel>
+                <Tabs.Panel value="reviews_comments">
+                    <UserReviewCommentList userReviewComments={userReviewComments} />
                 </Tabs.Panel>
                 <Tabs.Panel value="posts">
                     <UserPostList userPosts={userPosts} />

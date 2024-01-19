@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 interface UserReview {
     id: number,
     product_id: number,
+    product_name: string,
     username: string,
     user_avatar_url: string,
     review: string,
@@ -30,6 +31,7 @@ const generateUserReview = (): UserReview => {
         username: faker.internet.userName(),
         user_avatar_url: faker.image.url(),
         product_id: faker.number.int(),
+        product_name: faker.commerce.product(),
         review: faker.lorem.text(),
         user_rating: faker.number.int({ min: 1, max: 10 }),
         created_at: faker.date.past().toISOString(),
@@ -55,9 +57,9 @@ const generateUserReviewAnswer = (): UserReviewAnswer => {
 };
 
 
-const generateMain = () => {
+const generateReviews = () => {
     const userReviews: UserReview[] = Array.from({ length: 10 }, generateUserReview);
     return userReviews
 }
 
-export default generateMain
+export default generateReviews

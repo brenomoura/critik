@@ -24,23 +24,6 @@ import generateProduct from '../../mock_data/generate_product';
 import StyledLink from '../shared/StyledLink';
 
 
-interface UserReview {
-    id: number,
-    username: string,
-    review: string,
-    score: number,
-    created_at: string,
-    updated_at: string,
-    photos_urls: string[],
-    videos_urls: string[],
-    answers: UserReviewAnswer[]
-}
-
-interface UserReviewAnswer {
-    id: number,
-    username: string,
-    comment: string
-}
 
 interface ProductStatsComponentProps {
     product: IProductItem

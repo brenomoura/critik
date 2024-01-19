@@ -1,11 +1,10 @@
 import RankingList from "../components/rankings/RankingList"
-import FilterAndSortBar from "../components/shared/FilterAndSortBar"
+import SearchBar from "../components/shared/SearchBar"
 
 const Rankings = () => {
     return (
         <div>
-            Rankings
-            <FilterAndSortBar />
+            <SearchBar />
             <RankingList />
         </div>
     )
