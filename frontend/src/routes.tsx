@@ -5,7 +5,6 @@ import ProductDetails from "./pages/ProductDetails"
 import ProductDiscussions from "./pages/ProductDiscussions"
 import ProductFormPage from "./pages/ProductFormPage"
 import Rankings from "./pages/Rankings"
-import SearchResults from "./pages/SearchResults"
 import UserProfile from "./pages/UserProfile"
 import ViolationReports from "./pages/ViolationReports"
 import ProductDiscussionThread from "./pages/ProductDiscussionThread"
@@ -39,10 +38,6 @@ export const router = createBrowserRouter([
     {
         path: "/profile/:profileId",
         element: <UserProfile />
-    },
-    {
-        path: "/search",
-        element: <SearchResults />
     },
     {
         path: "/admin",

@@ -80,7 +80,12 @@ const UserReviewAnswer = ({ id, username, user_avatar_url, comment, created_at }
 
     return (
         <section id={`${id}`}>
-            <Divider my="xs" color="gray" style={{ marginLeft: 30 }} />
+            <Divider
+                my="xs"
+                style={{
+                    marginLeft: 30
+                }}
+            />
             <div style={{ marginLeft: 30 }}>
                 <Group>
                     <Avatar
@@ -134,7 +139,14 @@ const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score,
     }
 
     return (
-        <Paper withBorder style={{ padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)" }} m={15}>
+        <Paper
+            withBorder
+            style={{
+                padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)",
+                backgroundColor: "var(--mantine-color-dark-6)"
+            }}
+            m={15}
+        >
             <Stack
                 justify="flex-end"
             >

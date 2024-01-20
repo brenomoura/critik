@@ -27,10 +27,12 @@ const SearchBar = () => {
         </Grid.Col>
         <Grid.Col span={4}>
           <Autocomplete
-            placeholder="Search for a product..."
+            placeholder="Type to search a product..."
             leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
             data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
-            miw={100}
+            miw={300}
+            maxDropdownHeight={400}
+            comboboxProps={{ shadow: 'md' }}
           />
         </Grid.Col>
         <Grid.Col span={4}>

@@ -135,7 +135,7 @@ const PortableGridView = ({ product }: GridViewProps) => {
 
 
 const RankingList = () => {
-    const isPortable = useMediaQuery(`(max-width: ${em(950)})`);
+    const isPortable = useMediaQuery(`(max-width: ${em(970)})`);
     const [section, setSection] = useState<'feature_products' | 'top' | 'new' >('feature_products');
     const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year' | 'all_time'>('today');
     const [categoryValue, setCategoryValue] = useState<string | null>();
