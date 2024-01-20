@@ -1,5 +1,5 @@
 import IProductItem from "../../types/productItemInterface"
-import StyledLink from "../shared/StyledLink"
+import StyledLink from "./StyledLink"
 import classes from './ProductList.module.css';
 import { useMediaQuery } from "@mantine/hooks"
 import {
@@ -7,7 +7,7 @@ import {
     Container,
     Card,
 } from "@mantine/core"
-import ProductView from "./ProductView";
+import ProductView from "../product/ProductView";
 
 
 interface ProductListProps {

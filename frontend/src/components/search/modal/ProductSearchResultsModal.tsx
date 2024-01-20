@@ -1,5 +1,5 @@
 import { Input, Modal, em, rem } from "@mantine/core"
-import ProductList from "../../product/ProductList"
+import ProductList from "../../shared/ProductList"
 import IProductItem from "../../../types/productItemInterface"
 import { useMediaQuery } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons-react"
