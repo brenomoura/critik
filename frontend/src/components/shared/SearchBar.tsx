@@ -1,4 +1,4 @@
-import { Group, rem, Badge, Space, Grid, Input } from '@mantine/core';
+import { Group, rem, Badge, Space, Grid, Input, Text } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { Copyright, Bell, EnvelopeSimple } from '@phosphor-icons/react'
 
@@ -26,11 +26,16 @@ const SearchBar = () => {
           </Grid.Col>
           <Grid.Col span={4}>
             <Input
-              placeholder="Search a product..."
               leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
               onClick={() => setProductSearchResultsModalOpened(true)}
               miw={250}
-            />
+              component="button"
+              pointer
+            >
+              <Text c="dimmed">
+                Search a product...
+              </Text>
+            </Input>
           </Grid.Col>
           <Grid.Col span={4}>
             <Group justify='right'>
