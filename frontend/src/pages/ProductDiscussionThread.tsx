@@ -9,7 +9,8 @@ import {
     Avatar,
     Container,
     Tooltip,
-    rem
+    rem,
+    Center
 } from "@mantine/core"
 import SearchBar from "../components/shared/SearchBar"
 import { ListPlus, Siren, ThumbsDown, ThumbsUp } from "@phosphor-icons/react"
@@ -125,6 +126,18 @@ const ProductDiscussionThread = () => {
             <SearchBar />
             <Space h="md" />
             <Container>
+                <Center>
+                    <Title
+                        order={1}
+                        size="h2"
+                        style={{ fontFamily: 'Greycliff CF, var(--mantine-font-family)' }}
+                        ta="left"
+                        mt={20}
+                        mb={10}
+                    >
+                        {productDiscussionThread.product_name}
+                    </Title>
+                </Center>
                 <Group justify="space-between">
                     <Title
                         order={2}

@@ -55,14 +55,16 @@ const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps
                 <Grid.Col span="auto">
                     <Center>
                         <HoverCard shadow="md" withArrow position='right'>
-                            <HoverCard.Target>
-                                <Avatar
-                                    src={productDiscussion.product_avatar}
-                                    size={120}
-                                    radius="xl"
-                                    mr="xs"
-                                />
-                            </HoverCard.Target>
+                            <StyledLink to={`/product/${productDiscussion.id}`}>
+                                <HoverCard.Target>
+                                    <Avatar
+                                        src={productDiscussion.product_avatar}
+                                        size={120}
+                                        radius="xl"
+                                        mr="xs"
+                                    />
+                                </HoverCard.Target>
+                            </StyledLink>
                             <HoverCard.Dropdown>
                                 <StyledLink to={`/product/${productDiscussion.id}`}>
                                     <Group justify="space-between">

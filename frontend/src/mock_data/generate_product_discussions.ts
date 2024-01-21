@@ -35,6 +35,7 @@ const generateProductDiscussions = () => {
     return {
         id: faker.number.int(),
         discussion_name: faker.lorem.sentence(),
+        product_name: faker.commerce.product(),
         messages: messages
     }
 }

@@ -88,9 +88,7 @@ const ProductDiscussionItem = ({ productDiscussion, isPortable }: ProductDiscuss
                         <Text fz="sm" c="dimmed" lineClamp={4}>
                             {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
                         </Text>
-                        <Stack
-                            justify="flex-end"
-                        >
+                        <Stack justify="space-between">
                             <Group justify="space-between" className={classes.footer}>
                                 <Stack
                                     align='flex-start'
@@ -113,7 +111,7 @@ const ProductDiscussionItem = ({ productDiscussion, isPortable }: ProductDiscuss
 
                                     </Center>
                                 </Stack>
-                                <Group gap={8} mr={0}>
+                                <Group gap={8}>
                                     <Text fz="xs">
                                         {"Last post by "}
                                     </Text>
