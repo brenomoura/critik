@@ -23,7 +23,7 @@ import ProductView from "../product/ProductView"
 
 const RankingList = () => {
     const isPortable = useMediaQuery(`(max-width: ${em(970)})`);
-    const [section, setSection] = useState<'feature_products' | 'top' | 'new'>('feature_products');
+    const [section, setSection] = useState<'feature_products' | 'top' | 'new' | 'low'>('feature_products');
     const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year' | 'all_time'>('today');
     const [categoryValue, setCategoryValue] = useState<string | null>();
     const [categories, setCategories] = useState<any>([{ label: 'All Categories', value: 'all' },]);
@@ -46,9 +46,9 @@ const RankingList = () => {
                     onChange={(value: any) => setPeriod(value)}
                     data={[
                         { label: 'Today', value: 'today' },
-                        { label: 'This Week', value: 'week' },
-                        { label: 'This Month', value: 'month' },
-                        { label: 'This Year', value: 'year' },
+                        { label: 'Week', value: 'week' },
+                        { label: 'Month', value: 'month' },
+                        { label: 'Year', value: 'year' },
                         { label: 'All Time', value: 'all_time' },
                     ]}
                 />
@@ -61,6 +61,13 @@ const RankingList = () => {
         <Container fluid mt={20}>
             <Stack gap="sm">
                 <Grid>
+                    <Grid.Col span={5}>
+                        <Select
+                            defaultValue='all'
+                            data={categories}
+                            onChange={setCategoryValue}
+                        />
+                    </Grid.Col>
                     <Grid.Col span='auto'>
                         <SegmentedControl
                             value={section}
@@ -73,7 +80,7 @@ const RankingList = () => {
                                     label: (
                                         <Center style={{ gap: 10 }}>
                                             <Fire style={{ width: rem(16), height: rem(16) }} />
-                                            <span>Featured Products</span>
+                                            <span>Featured</span>
                                         </Center>
                                     ),
                                 },
@@ -96,22 +103,15 @@ const RankingList = () => {
                                     ),
                                 },
                                 {
-                                    value: 'lower_rated',
+                                    value: 'low',
                                     label: (
                                         <Center style={{ gap: 10 }}>
                                             <ChartLineDown style={{ width: rem(16), height: rem(16) }} />
-                                            <span>Lower-Rated</span>
+                                            <span>Low</span>
                                         </Center>
                                     ),
                                 },
                             ]}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={3}>
-                        <Select
-                            defaultValue='all'
-                            data={categories}
-                            onChange={setCategoryValue}
                         />
                     </Grid.Col>
                 </Grid>

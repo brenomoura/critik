@@ -13,8 +13,9 @@ const AddProductReview = () => {
             <Button
                 leftSection={<ListPlus style={{ width: rem(20), height: rem(20) }} />}
                 onClick={() => setModalOpened(true)}
+                mx={rem (20)}
             >
-                Click here to left your review about the product
+                Write a review
             </Button>
             <ProductReviewFormModal opened={modalOpened} setOpened={setModalOpened} />
         </div>

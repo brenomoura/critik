@@ -10,6 +10,7 @@ import {
     Grid,
     HoverCard,
     Tooltip,
+    em,
 } from '@mantine/core';
 import { Chat } from '@phosphor-icons/react'
 import classes from './FeaturedDiscussions.module.css';
@@ -17,6 +18,7 @@ import moment from 'moment'
 import Title from '../shared/Title';
 import generateDiscussions from '../../mock_data/generate_discussions';
 import StyledLink from '../shared/StyledLink';
+import { useMediaQuery } from '@mantine/hooks';
 
 
 interface IProductDiscussion {
@@ -37,6 +39,7 @@ interface IProductDiscussion {
 
 interface ProductDiscussionItemProps {
     productDiscussion: IProductDiscussion;
+    isPortable: boolean | undefined
 }
 
 interface DiscussionProps {
@@ -44,7 +47,54 @@ interface DiscussionProps {
 }
 
 
-const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps) => {
+const ProductDiscussionItem = ({ productDiscussion, isPortable }: ProductDiscussionItemProps) => {
+
+    const avatarComponent = () => {
+        return (
+            <Center>
+                <HoverCard shadow="md" withArrow position='right'>
+                    <StyledLink to={`/product/${productDiscussion.id}`}>
+                        <HoverCard.Target>
+                            <Avatar
+                                src={productDiscussion.product_avatar}
+                                size={em(120)}
+                                radius="xl"
+                                mr="xs"
+                            />
+                        </HoverCard.Target>
+                    </StyledLink>
+                    <HoverCard.Dropdown>
+                        <StyledLink to={`/product/${productDiscussion.id}`}>
+                            <Group justify="space-between">
+                                <Avatar
+                                    src={productDiscussion.product_avatar}
+                                    size={70}
+                                    radius="xl"
+                                    mr="xs"
+                                />
+                                <Text fw={700}>
+                                    {productDiscussion.product_name}
+                                </Text>
+                            </Group>
+                        </StyledLink>
+                    </HoverCard.Dropdown>
+                </HoverCard>
+            </Center>
+        )
+    }
+
+    const desktopAvatarView = () => {
+        return (
+            isPortable
+                ? null
+                : <Grid.Col span={2}>{avatarComponent()}</Grid.Col>
+        )
+    }
+
+    const portableAvatarView = () => {
+        return isPortable ? avatarComponent() : null
+    }
+
     return (
         <Card
             withBorder
@@ -52,38 +102,9 @@ const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps
             className={classes.card}
         >
             <Grid>
-                <Grid.Col span="auto">
-                    <Center>
-                        <HoverCard shadow="md" withArrow position='right'>
-                            <StyledLink to={`/product/${productDiscussion.id}`}>
-                                <HoverCard.Target>
-                                    <Avatar
-                                        src={productDiscussion.product_avatar}
-                                        size={120}
-                                        radius="xl"
-                                        mr="xs"
-                                    />
-                                </HoverCard.Target>
-                            </StyledLink>
-                            <HoverCard.Dropdown>
-                                <StyledLink to={`/product/${productDiscussion.id}`}>
-                                    <Group justify="space-between">
-                                        <Avatar
-                                            src={productDiscussion.product_avatar}
-                                            size={70}
-                                            radius="xl"
-                                            mr="xs"
-                                        />
-                                        <Text fw={700}>
-                                            {productDiscussion.product_name}
-                                        </Text>
-                                    </Group>
-                                </StyledLink>
-                            </HoverCard.Dropdown>
-                        </HoverCard>
-                    </Center>
-                </Grid.Col>
-                <Grid.Col span={10}>
+                {desktopAvatarView()}
+                <Grid.Col span={isPortable ? 12 : 10}>
+                    {portableAvatarView()}
                     <StyledLink to={`/product/${productDiscussion.product_id}/discussions/${productDiscussion.id}`}>
                         <Text fw={500}>
                             {productDiscussion.topic_title}
@@ -92,7 +113,6 @@ const ProductDiscussionItem = ({ productDiscussion }: ProductDiscussionItemProps
                             {`${productDiscussion.topic_content_shortened}`.substring(0, 100) + '...'}
                         </Text>
                         <Stack
-                            // h={70}
                             justify="flex-end"
                         >
                             <Group justify="space-between" className={classes.footer}>
@@ -154,6 +174,7 @@ const FeaturedDiscussions = ({ showTitle = true }: DiscussionProps) => {
     }
 
     const discussions: IProductDiscussion[] = generateDiscussions()
+    const isPortable = useMediaQuery(`(max-width: ${em(800)})`);
 
     return (
         <Container fluid>
@@ -163,6 +184,7 @@ const FeaturedDiscussions = ({ showTitle = true }: DiscussionProps) => {
                     <ProductDiscussionItem
                         key={discussionItem.id}
                         productDiscussion={discussionItem}
+                        isPortable={isPortable}
                     />
                 ))}
             </Stack>

@@ -1,4 +1,4 @@
-import { Center, Collapse, Group, RangeSlider, Select, Space, Text } from "@mantine/core"
+import { Center, Collapse, Group, RangeSlider, Select, Space, Text, rem } from "@mantine/core"
 import AddProductReview from "../components/form/ProductReviewForm"
 import ProductReviewList from "../components/product/ProductReviewList"
 import ProductSummaryHorizontal from "../components/product/ProductSummaryReviews"
@@ -28,6 +28,7 @@ const ProductDetails = () => {
             <Space h="md" />
             <ProductSummaryHorizontal />
             <Group justify="center" py={20}>
+                <AddProductReview />
                 <Select
                     defaultValue='best_reviews'
                     data={[
@@ -45,7 +46,6 @@ const ProductDetails = () => {
                         { label: 'Older Reviews', value: 'older_reviews' },
                     ]}
                 />
-                <AddProductReview />
             </Group>
             <Collapse in={collpaseOpened} py={10} px={100}>
                 <Center>
@@ -59,7 +59,7 @@ const ProductDetails = () => {
                     defaultValue={[0, 10]}
                     marks={marks}
                     styles={{ markLabel: { display: 'none' } }}
-                    style={{ padding: 20 }}
+                    style={{ padding: rem(20) }}
                 />
             </Collapse>
             <ProductReviewList userReviews={userReviews} />

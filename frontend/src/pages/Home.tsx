@@ -38,7 +38,7 @@ const PortableView = () => {
 }
 
 const Home = () => {
-    const isPortable = useMediaQuery(`(max-width: ${em(1150)})`);
+    const isPortable = useMediaQuery(`(max-width: ${em(1770)})`);
     const mainComponent = isPortable ? <PortableView /> : <DesktopView />
 
     return (

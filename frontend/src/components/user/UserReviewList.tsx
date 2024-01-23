@@ -11,7 +11,8 @@ import {
     Image,
     Stack,
     Button,
-    Tooltip
+    Tooltip,
+    em
 } from "@mantine/core";
 import { Star, ThumbsUp, ThumbsDown, Siren } from '@phosphor-icons/react'
 import moment from "moment";
@@ -19,6 +20,7 @@ import MediaModal from "../shared/modal/MediaModal";
 import { useState } from "react";
 import StyledLink from "../shared/StyledLink";
 import ReportFormModal from "../form/modal/ReportFormModal";
+import { useMediaQuery } from "@mantine/hooks";
 
 
 
@@ -70,6 +72,7 @@ const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslik
     const [mediaModalOpened, setMediaModalOpened] = useState<true | false>(false);
     const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
     const [initialSlideIndex, setInitialSlideIndex] = useState<number | undefined>()
+    const isPortable = useMediaQuery(`(max-width: ${em(1300)})`);
 
 
     const mediaComponent = (url: string) => {
@@ -87,6 +90,40 @@ const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslik
         setMediaModalOpened(true)
     }
 
+    const mediaGridComponent = () => {
+        return (
+            <Center>
+                <div>
+                    <SimpleGrid cols={3} spacing="xs" verticalSpacing="xs">
+                        {mediaUrls.map((url, index) => (
+                            <div style={{ cursor: 'pointer' }} onClick={() => (mediaComponentOnClick(index))} key={index}>
+                                {mediaComponent(url)}
+                            </div>
+                        ))}
+                    </SimpleGrid>
+                </div>
+            </Center>
+
+        )
+    }
+
+    const desktopMediaGridViewComponent = () => {
+        return (
+            isPortable
+                ? null
+                : <Grid.Col span={2}>{mediaGridComponent()}</Grid.Col>
+        )
+    }
+
+    const portableMediaGridViewComponent = () => {
+        return (
+            isPortable
+                ? mediaGridComponent()
+                : null
+        )
+    }
+
+
     return (
         <div>
             <Paper withBorder style={{ padding: "var(--mantine-spacing-lg) var(--mantine-spacing-xl)" }} m={15}>
@@ -98,7 +135,7 @@ const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslik
                             <StyledLink to={`/product/${productId}/#${id}`}>
                                 <Group>
                                     <div>
-                                        <Text size="xs" c="dimmed">
+                                        <Text size="sm" fw={700}>
                                             {productName}
                                         </Text>
                                         <Tooltip label={`${moment(createdAt).format('MMMM Do YYYY, h:mm:ss a')}`} position="right">
@@ -113,19 +150,7 @@ const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslik
                                 </Text>
                             </StyledLink>
                         </Grid.Col>
-                        <Grid.Col span={2}>
-                            <Center>
-                                <div>
-                                    <SimpleGrid cols={3} spacing="xs" verticalSpacing="xs">
-                                        {mediaUrls.map((url, index) => (
-                                            <div style={{ cursor: 'pointer' }} onClick={() => (mediaComponentOnClick(index))} key={index}>
-                                                {mediaComponent(url)}
-                                            </div>
-                                        ))}
-                                    </SimpleGrid>
-                                </div>
-                            </Center>
-                        </Grid.Col>
+                        {desktopMediaGridViewComponent()}
                         <Grid.Col span={2}>
                             <Center>
                                 <StyledLink to={`/product/${productId}/#${id}`}>
@@ -136,6 +161,7 @@ const UserReview = ({ id, createdAt, review, score, mediaUrls, likeCount, deslik
                             </Center>
                         </Grid.Col>
                     </Grid>
+                    {portableMediaGridViewComponent()}
                     <Group justify="space-between">
                         <Button.Group>
                             <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{likeCount}</Button>

@@ -67,10 +67,10 @@ const UserDetailsSummaryPortable = ({ user }: UserSummaryProps) => {
                 <div>
                     <Group gap={30}>
                         <div>
-                            <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
+                            <Text fz="xs" tt="uppercase" fw={600} c="dimmed">
                                 {user.ranking}
                             </Text>
-                            <Text fz="lg" fw={500} className={classes.name}>
+                            <Text fz="md" fw={500} className={classes.name}>
                                 {user.username}
                             </Text>
                         </div>

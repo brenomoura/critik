@@ -1,10 +1,12 @@
-import { 
-    Space, 
-    Grid, 
-    ScrollArea, 
-    em, 
-    Group, 
-    Select 
+import {
+    Space,
+    Grid,
+    ScrollArea,
+    em,
+    Group,
+    Select,
+    Stack,
+    Center
 } from "@mantine/core"
 import ProductSummaryReviews from "../components/product/ProductSummaryDiscussions"
 import SearchBar from "../components/shared/SearchBar"
@@ -23,9 +25,29 @@ interface ViewProps {
 
 
 const ScrollAreaProductDiscussion = ({ isPortable }: ScrollAreaProductDiscussionProps) => {
-    return (
-        <ScrollArea.Autosize mah='90vh' >
-            <Group justify="flex-end">
+    const isMobile = useMediaQuery(`(max-width: ${em(580)})`);
+
+    const mobileView = () => {
+        return isMobile
+            ? <Center my={20}>
+                <Stack>
+                    <AddProductDiscusssion />
+                    <Select
+                        defaultValue='last_updated'
+                        data={[
+                            { label: 'Last Updated', value: 'last_updated' },
+                            { label: 'Most Commented', value: 'most_commented' },
+                        ]}
+                    />
+                </Stack>
+            </Center>
+            : null
+    }
+
+    const regularView = () => {
+        return isMobile
+            ? null
+            : <Group justify="flex-end">
                 <Select
                     defaultValue='last_updated'
                     data={[
@@ -35,8 +57,15 @@ const ScrollAreaProductDiscussion = ({ isPortable }: ScrollAreaProductDiscussion
                 />
                 <AddProductDiscusssion />
             </Group>
-            <ProductDiscussions isPortable={isPortable} />
-        </ScrollArea.Autosize>
+    }
+    return (
+        <>
+            {mobileView()}
+            {regularView()}
+            <ScrollArea.Autosize mah='90vh' >
+                <ProductDiscussions isPortable={isPortable} />
+            </ScrollArea.Autosize>
+        </>
     )
 }
 
@@ -70,14 +99,14 @@ const ProductDiscussion = () => {
 
 
     const mainComponent = isPortable
-        ? <PortableView 
-            productSummaryReviewsComponent={productSummaryReviewsComponent} 
-            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} 
-          />
-        : <DesktopView 
-            productSummaryReviewsComponent={productSummaryReviewsComponent} 
-            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent} 
-          />
+        ? <PortableView
+            productSummaryReviewsComponent={productSummaryReviewsComponent}
+            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent}
+        />
+        : <DesktopView
+            productSummaryReviewsComponent={productSummaryReviewsComponent}
+            scrollAreaProductDiscussionComponent={scrollAreaProductDiscussionComponent}
+        />
 
     return (
         <div>

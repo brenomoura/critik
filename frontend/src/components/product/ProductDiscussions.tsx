@@ -81,7 +81,7 @@ const ProductDiscussionItem = ({ productDiscussion, isPortable }: ProductDiscuss
             <Card withBorder radius="md" className={classes.card}>
                 <Grid>
                     {userAvatarDesktop}
-                    <Grid.Col span={10}>
+                    <Grid.Col span={ isPortable ? 12 : 10}>
                         <Text fw={500}>
                             {productDiscussion.topic_title}
                         </Text>

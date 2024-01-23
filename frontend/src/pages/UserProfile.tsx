@@ -29,19 +29,20 @@ const ScrollAreaProductDiscussion = () => {
     const userReviewComments = generateUserReviewComments()
 
     return (
-        <ScrollArea.Autosize mah='90vh' >
-            <Tabs defaultValue="reviews">
-                <Tabs.List grow>
-                    <Tabs.Tab value="reviews">
-                        Reviews
-                    </Tabs.Tab>
-                    <Tabs.Tab value="reviews_comments">
-                        Reviews Comments
-                    </Tabs.Tab>
-                    <Tabs.Tab value="posts">
-                        Posts
-                    </Tabs.Tab>
-                </Tabs.List>
+
+        <Tabs defaultValue="reviews">
+            <Tabs.List grow>
+                <Tabs.Tab value="reviews">
+                    Reviews
+                </Tabs.Tab>
+                <Tabs.Tab value="reviews_comments">
+                    Reviews Comments
+                </Tabs.Tab>
+                <Tabs.Tab value="posts">
+                    Posts
+                </Tabs.Tab>
+            </Tabs.List>
+            <ScrollArea.Autosize mah='90vh'>
                 <Tabs.Panel value="reviews">
                     <UserReviewList userReviews={userReviews} />
                 </Tabs.Panel>
@@ -51,8 +52,9 @@ const ScrollAreaProductDiscussion = () => {
                 <Tabs.Panel value="posts">
                     <UserPostList userPosts={userPosts} />
                 </Tabs.Panel>
-            </Tabs>
-        </ScrollArea.Autosize>
+            </ScrollArea.Autosize>
+        </Tabs>
+
     )
 }
 

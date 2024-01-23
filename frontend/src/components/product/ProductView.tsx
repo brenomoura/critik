@@ -9,9 +9,11 @@ import {
     Grid,
     Avatar,
     SimpleGrid,
+    em,
 } from "@mantine/core"
 import IProductItem from "../../types/productItemInterface"
 import { Star } from "@phosphor-icons/react"
+import { useMediaQuery } from "@mantine/hooks"
 
 
 interface ProductViewProps {
@@ -39,7 +41,7 @@ const ProductStatsComponent = ({ product }: ProductProps) => {
                     </Badge>
                 </Center>
                 <Center>
-                    <Group mt={-110} justify="center" >
+                    <Group mt={-90} justify="center" >
                         <div>
                             <Text ta="center" fz="lg" fw={500}>
                                 {product.reviewsCount}
@@ -98,20 +100,51 @@ const DesktopGridView = ({ product }: GridViewProps) => {
 }
 
 const PortableGridView = ({ product }: GridViewProps) => {
+    const isMobile = useMediaQuery(`(max-width: ${em(500)})`);
+
+    const portableView = () => {
+        return (
+            isMobile
+                ? null
+                : <SimpleGrid cols={2}>
+                    <Center>
+                        <Avatar
+                            src={product.avatar}
+                            size={110}
+                            radius="xl"
+                            mr="xs"
+                        />
+                    </Center>
+                    <ProductStatsComponent product={product} />
+                </SimpleGrid>
+
+        )
+    }
+
+    const mobileView = () => {
+        return (
+            isMobile
+                ? <Stack>
+                    <Center>
+                        <Avatar
+                            src={product.avatar}
+                            size={110}
+                            radius="xl"
+                            mr="xs"
+                        />
+                    </Center>
+                    <ProductStatsComponent product={product} />
+                </Stack>
+                : null
+
+        )
+    }
+
 
     return (
         <Stack>
-            <SimpleGrid cols={2}>
-                <Center>
-                    <Avatar
-                        src={product.avatar}
-                        size={110}
-                        radius="xl"
-                        mr="xs"
-                    />
-                </Center>
-                <ProductStatsComponent product={product} />
-            </SimpleGrid>
+            {mobileView()}
+            {portableView()}
             <Stack gap={0} mx={10} mb={10}>
                 <Text fz="xl">
                     {product.name}

@@ -13,7 +13,8 @@ import {
     Divider,
     Stack,
     Button,
-    Tooltip
+    Tooltip,
+    em
 } from "@mantine/core";
 import { Star, ThumbsUp, ThumbsDown, Siren } from '@phosphor-icons/react'
 import moment from "moment";
@@ -21,6 +22,7 @@ import MediaModal from "../shared/modal/MediaModal";
 import { useState } from "react";
 import ReportFormModal from "../form/modal/ReportFormModal";
 import StyledLink from "../shared/StyledLink";
+import { useMediaQuery } from "@mantine/hooks";
 
 
 
@@ -43,7 +45,7 @@ interface UserReviewProps {
     answers: IUserReviewAnswer[]
     mediaUrls: string[],
     likeCount: number,
-    deslikeCount: number
+    deslikeCount: number,
 }
 
 interface UserReview {
@@ -118,10 +120,23 @@ const UserReviewAnswer = ({ id, username, user_avatar_url, comment, created_at }
     )
 }
 
-const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score, answers, mediaUrls, likeCount, deslikeCount }: UserReviewProps) => {
+const UserReview = ({
+    username,
+    userId,
+    userAvatarUrl,
+    createdAt,
+    review,
+    score,
+    answers,
+    mediaUrls,
+    likeCount,
+    deslikeCount,
+}: UserReviewProps) => {
     const [mediaModalOpened, setMediaModalOpened] = useState<true | false>(false);
     const [reportModalOpened, setReportModalOpened] = useState<true | false>(false);
     const [initialSlideIndex, setInitialSlideIndex] = useState<number | undefined>()
+    const isPortable = useMediaQuery(`(max-width: ${em(1200)})`);
+    const isMobile = useMediaQuery(`(max-width: ${em(915)})`);
 
     const mediaComponent = (url: string) => {
         if (url.includes(".mp4")) {
@@ -136,6 +151,60 @@ const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score,
     const mediaComponentOnClick = (initialSlide: number) => {
         setInitialSlideIndex(initialSlide)
         setMediaModalOpened(true)
+    }
+
+
+    const mediaGridComponent = () => {
+        return (
+            <Center>
+                <div>
+                    <SimpleGrid cols={3} spacing="xs" verticalSpacing="xs">
+                        {mediaUrls.map((url, index) => (
+                            <div style={{ cursor: 'pointer' }} onClick={() => (mediaComponentOnClick(index))} key={index}>
+                                {mediaComponent(url)}
+                            </div>
+                        ))}
+                    </SimpleGrid>
+                </div>
+            </Center>
+
+        )
+    }
+
+    const desktopMediaGridViewComponent = () => {
+        return (
+            isPortable
+                ? null
+                : <Grid.Col span={2}>{mediaGridComponent()}</Grid.Col>
+        )
+    }
+
+    const portableMediaGridViewComponent = () => {
+        return (
+            isPortable
+                ? <div style={{ marginLeft: 54 }}>{mediaGridComponent()}</div>
+                : null
+        )
+    }
+
+    const scoreComponent = () => {
+        return (
+            <Center>
+                <Badge leftSection={<Star style={{ width: rem(30), height: rem(30) }} />} py={60} color="transparent">
+                    <Title size={60}>{score}</Title>
+                </Badge>
+            </Center>
+        )
+    }
+
+    const portableScoreComponent = () => {
+        return isMobile ? scoreComponent() : null
+    }
+
+    const desktopScoreComponent = () => {
+        return isMobile 
+        ? null 
+        : <Grid.Col span={2}>{scoreComponent()}</Grid.Col>
     }
 
     return (
@@ -169,31 +238,15 @@ const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score,
                                 </Tooltip>
                             </div>
                         </Group>
+                        {portableScoreComponent()}
                         <Text pl={54} pt="sm" size="sm" style={{ whiteSpace: "pre-line" }}>
                             {review}
                         </Text>
                     </Grid.Col>
-                    <Grid.Col span={2}>
-                        <Center>
-                            <div>
-                                <SimpleGrid cols={3} spacing="xs" verticalSpacing="xs">
-                                    {mediaUrls.map((url, index) => (
-                                        <div style={{ cursor: 'pointer' }} onClick={() => (mediaComponentOnClick(index))} key={index}>
-                                            {mediaComponent(url)}
-                                        </div>
-                                    ))}
-                                </SimpleGrid>
-                            </div>
-                        </Center>
-                    </Grid.Col>
-                    <Grid.Col span={2}>
-                        <Center>
-                            <Badge leftSection={<Star style={{ width: rem(20), height: rem(20) }} />} py={40} color="transparent">
-                                <Title size={40}>{score}</Title>
-                            </Badge>
-                        </Center>
-                    </Grid.Col>
+                    {desktopMediaGridViewComponent()}
+                    {desktopScoreComponent()}
                 </Grid>
+                {portableMediaGridViewComponent()}
                 <Group ml={50} justify="space-between">
                     <Button.Group>
                         <Button variant="transparent" color="gray" leftSection={<ThumbsUp />}>{likeCount}</Button>
@@ -223,7 +276,7 @@ const UserReview = ({ username, userId, userAvatarUrl, createdAt, review, score,
 }
 
 const ProductReviewList = ({ userReviews }: ProductReviewListProps) => {
-
+    
     return (
         <>
             {userReviews.map(userReview => (

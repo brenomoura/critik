@@ -130,10 +130,15 @@ const DesktopGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, 
 }
 
 const PortableGridView = ({ product, setPhotosModalOpened, setVideosModalOpened, videosCount, photosCount }: GridViewProps) => {
+    const isMobile = useMediaQuery(`(max-width: ${em(640)})`);
+
+    const mobileProductStats = isMobile ? <ProductStatsComponent product={product} /> : null
+
+    const portableProductStats = isMobile ? null : <ProductStatsComponent product={product} />
 
     return (
         <Stack>
-            <SimpleGrid cols={2}>
+            <SimpleGrid cols={isMobile ? 1 : 2} mt={isMobile ? 20 : 0}>
                 <Center>
                     <Avatar
                         src={product.avatar}
@@ -161,8 +166,9 @@ const PortableGridView = ({ product, setPhotosModalOpened, setVideosModalOpened,
                         </Tooltip>
                     </Stack>
                 </Center>
-                <ProductStatsComponent product={product} />
+                {portableProductStats}
             </SimpleGrid>
+            {mobileProductStats}
             <div>
                 <Text fz="xl">
                     {product.name}
