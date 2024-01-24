@@ -1,12 +1,15 @@
-import PendingProductList from "../components/product/PendingProductList"
-import FilterAndSortBar from "../components/shared/FilterAndSortBar"
+import { Container } from "@mantine/core"
+import PendingProductList from "../components/admin/PendingProductList"
+import SearchBar from "../components/shared/SearchBar"
+
 
 const ProductApproval = () => {
     return (
         <div>
-            ProductApproval
-            <FilterAndSortBar />
-            <PendingProductList />
+            <SearchBar />
+            <Container>
+                <PendingProductList />
+            </Container>
         </div>
     )
 }

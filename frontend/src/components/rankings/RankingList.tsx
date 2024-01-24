@@ -1,12 +1,11 @@
 import IProductItem from "../../types/productItemInterface"
 import { useEffect, useState } from "react"
-import { AlignBottom, ChartLineDown, Fire, GridFour, Star } from '@phosphor-icons/react'
+import { AlignBottom, ChartLineDown, Fire, Star } from '@phosphor-icons/react'
 import generateFeaturedProducts from "../../mock_data/generate_featured_products"
 import StyledLink from "../shared/StyledLink"
 import classes from './RankingList.module.css';
 import { useMediaQuery } from "@mantine/hooks"
 import {
-    Badge,
     Center,
     Stack,
     em,
