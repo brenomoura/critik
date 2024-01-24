@@ -8,6 +8,7 @@ import Rankings from "./pages/Rankings"
 import UserProfile from "./pages/UserProfile"
 import ViolationReports from "./pages/ViolationReports"
 import ProductDiscussionThread from "./pages/ProductDiscussionThread"
+import ProductRequest from "./pages/ProductRequest"
 
 
 export const router = createBrowserRouter([
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
     {
         path: "/product/:productId",
         element: <ProductDetails />
+    },
+    {
+        path: "/product/request",
+        element: <ProductRequest />
     },
     {
         path: "/product/:productId/discussions",

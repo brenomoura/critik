@@ -77,7 +77,7 @@ const ProductReviewFormModal = ({ opened, setOpened }: ProductReviewFormProps) =
                     What rating do you give to the product?
                 </Title>
                 <Slider
-                    defaultValue={5} // Change logic to not have a default, since it is possible to the user just submit the form without giving a proper score/rate
+                    defaultValue={5} // TODO - Change logic to not have a default, since it is possible to the user just submit the form without giving a proper score/rate
                     label={(val) => marks.find((mark) => mark.value === val)!.label}
                     max={10}
                     step={1}
