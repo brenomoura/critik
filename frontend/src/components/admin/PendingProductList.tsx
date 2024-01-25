@@ -10,6 +10,7 @@ import {
     Card,
     Button,
     Pagination,
+    Tooltip,
 } from "@mantine/core"
 import { Check, X } from "@phosphor-icons/react"
 import { useMediaQuery } from "@mantine/hooks"
@@ -19,6 +20,7 @@ import classes from './PendingProductList.module.css';
 import { useState } from "react"
 import MediaModal from "../shared/modal/MediaModal"
 import DeclineProductFormModal from "../form/modal/DeclineProductFormModal"
+import ApprovalProductFormModal from "../form/modal/ApprovalProductFormModal"
 
 
 interface ProductViewProps {
@@ -30,8 +32,8 @@ interface GridViewProps {
     product: IPendingProductItem,
 }
 
-interface ProductProps {
-    product: IPendingProductItem
+interface PendingProductProps {
+    pendingProduct: IPendingProductItem
 }
 
 interface PendingProductAvatarProps {
@@ -41,23 +43,34 @@ interface PendingProductAvatarProps {
 }
 
 
-const ApprovalSectionComponent = ({ product }: ProductProps) => {
+const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
     const [declineModalOpened, setDeclineModalOpened] = useState<true | false>(false);
+    const [approveModalOpened, setApproveModalOpened] = useState<true | false>(false);
 
-    console.log(product.id)
+    console.log(pendingProduct.id)
     return (
         <>
             <Center>
                 <Button.Group>
-                    <Button variant="transparent" color="green" leftSection={<Check weight="bold" size={34} />} />
-                    <Button
-                        variant="transparent"
-                        color="red"
-                        leftSection={<X weight="bold" size={34} />}
-                        onClick={() => setDeclineModalOpened(true)}
-                    />
+                    <div>
+                        <Button
+                            variant="transparent"
+                            color="green"
+                            leftSection={<Check weight="bold" size={34} />}
+                            onClick={() => setApproveModalOpened(true)}
+                        />
+                    </div>
+                    <div>
+                        <Button
+                            variant="transparent"
+                            color="red"
+                            leftSection={<X weight="bold" size={34} />}
+                            onClick={() => setDeclineModalOpened(true)}
+                        />
+                    </div>
                 </Button.Group>
             </Center>
+            <ApprovalProductFormModal opened={approveModalOpened} setOpened={setApproveModalOpened} pendingProduct={pendingProduct} />
             <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} />
         </>
     )
@@ -68,14 +81,16 @@ const PendingProductAvatar = ({ avatar, size, mediaUrls }: PendingProductAvatarP
 
     return (
         <>
-            <Avatar
-                src={avatar}
-                size={size}
-                radius="xl"
-                mr="xs"
-                onClick={() => setMediaModalOpened(true)}
-                style={{ cursor: "pointer" }}
-            />
+            <Tooltip position="top" label="Click to see more pictures">
+                <Avatar
+                    src={avatar}
+                    size={size}
+                    radius="xl"
+                    mr="xs"
+                    onClick={() => setMediaModalOpened(true)}
+                    style={{ cursor: "pointer" }}
+                />
+            </Tooltip>
             <MediaModal opened={mediaModalOpened} setOpened={setMediaModalOpened} mediaUrls={mediaUrls} initialSlideIndex={0} />
         </>
     )
@@ -104,7 +119,7 @@ const DesktopGridView = ({ product }: GridViewProps) => {
                 </Stack>
             </Grid.Col>
             <Grid.Col span="auto">
-                <ApprovalSectionComponent product={product} />
+                <ApprovalSectionComponent pendingProduct={product} />
             </Grid.Col>
         </Grid>
     )
@@ -125,7 +140,7 @@ const PortableGridView = ({ product }: GridViewProps) => {
                 ? null
                 : <SimpleGrid cols={2}>
                     {avatarComponent}
-                    <ApprovalSectionComponent product={product} />
+                    <ApprovalSectionComponent pendingProduct={product} />
                 </SimpleGrid>
 
         )
@@ -138,7 +153,7 @@ const PortableGridView = ({ product }: GridViewProps) => {
                     <Center>
                         {avatarComponent}
                     </Center>
-                    <ApprovalSectionComponent product={product} />
+                    <ApprovalSectionComponent pendingProduct={product} />
                 </Stack>
                 : null
 
@@ -177,10 +192,13 @@ const PendingProductView = ({ product, isPortable }: ProductViewProps) => {
     )
 }
 
+
 const PendingProductList = () => {
     const pendingProductList = generatePendingProducts()
+
     const [activePage, setPage] = useState(1);
     const isPortable = useMediaQuery(`(max-width: ${em(970)})`);
+
 
 
     return (
