@@ -6,13 +6,16 @@ import {
     Modal,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import IPendingProductItem from '../../../types/pendingProductItemInterface';
 
 interface ReportFormProps {
     opened: boolean,
     setOpened: any,
+    declinedProduct?: IPendingProductItem | null
 }
 
-const DeclineProductFormModal = ({ opened, setOpened }: ReportFormProps) => {
+const DeclineProductFormModal = ({ opened, setOpened, declinedProduct }: ReportFormProps) => {
+
     const form = useForm({
         initialValues: {
             report: '',

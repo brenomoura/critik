@@ -12,82 +12,75 @@ import {
     Modal
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useState } from 'react';
 import IPendingProductItem from '../../../types/pendingProductItemInterface';
+import MediaModal from '../../shared/modal/MediaModal';
 
 interface ReportFormProps {
     opened: boolean,
     setOpened: any,
-    pendingProduct: IPendingProductItem
+    approvedProduct?: IPendingProductItem | null
 }
 
-const getFileFromUrlWithPath = async (url: string, name: string, defaultType: string = 'image/jpeg'): Promise<FileWithPath> => {
-    const response = await fetch(url);
-    const data = await response.blob();
+// const getFileFromUrlWithPath = async (url: string, name: string, defaultType: string = 'image/jpeg'): Promise<FileWithPath> => {
+//     const response = await fetch(url);
+//     const data = await response.blob();
 
-    const fileWithPath: FileWithPath = Object.assign(new File([data], name, { type: data.type || defaultType }), { path: url });
-    return fileWithPath;
-};
+//     const fileWithPath: FileWithPath = Object.assign(new File([data], name, { type: data.type || defaultType }), { path: url });
+//     return fileWithPath;
+// };
 
 
-const ApprovalProductFormModal = ({ opened, setOpened, pendingProduct }: ReportFormProps) => {
+const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: ReportFormProps) => {
+    // TODO - FIX chunk-VG3LJI6G.js?v=9eb6630f:2375 Warning: Internal React error: Expected static flag was missing. Please notify the React team. ON CONSOLE
+    if (!approvedProduct) {
+        return <></>
+    }
+
+    const [mediaModalOpened, setMediaModalOpened] = useState<boolean>(false)
+    const [initialSlideIndex, setInitialSlideIndex] = useState<number>(0)
+
+
+
     const form = useForm({
         initialValues: {
-            name: pendingProduct.name,
-            category: pendingProduct.category,
-            description: pendingProduct.description,
+            name: approvedProduct.name,
+            category: approvedProduct.category,
+            description: approvedProduct.description,
         },
     });
 
-    const [media, setMedia] = useState<FileWithPath[]>([]);
-
-    // FIX THIS LOGIC HERE
-
-    if(opened) {
-        const fetchMediaFiles = async () => {
-            const mediaAsFilePromises = pendingProduct.media.map(async (item) => {
-                const fileName = new URL(item).pathname.split('/').pop();
-                return getFileFromUrlWithPath(item, fileName || '');
-            });
-    
-            const mediaAsFile = await Promise.all(mediaAsFilePromises);
-            setMedia(mediaAsFile);
-        };
-    
-        fetchMediaFiles();
-    }
+    const [media, setMedia] = useState<string[]>(approvedProduct.media);
 
     const removeMedia = (indexToRemove: number) => {
         setMedia(media.filter((_, index) => index !== indexToRemove))
     }
 
-    const imageComponent = (srcUrl: string, index: number) => {
+    const imageComponent = (src: string, index: number) => {
         return (
-            <Tooltip label="Double click to remove the media">
+            <Tooltip label="Press the scroll button to remove the media" key={index}>
                 <Image
                     key={index}
-                    src={srcUrl}
-                    onLoad={() => URL.revokeObjectURL(srcUrl)}
-                    onDoubleClick={() => removeMedia(index)}
+                    src={src}
+                    onClick={() => {
+                        setMediaModalOpened(true)
+                        setInitialSlideIndex(index)
+                    }}
+                    // TODO - FIND WAY TO DELETE THE IMAGE, ADD SOME CLOSE 
+                    onScrollCapture={() => removeMedia(index)}
                     style={{ cursor: "pointer", aspectRatio: "4/3" }}
                 />
             </Tooltip>
         )
     }
 
-
-    const previews = media.map((file, index) => {
-        if (!file.path) {
-            return null
+    const previews = media.map((src, index) => {
+        if (src.includes(".mp4")) {
+            src = "../../../../public/play_button_gray_bg.jpg"
         }
-        let mediaUrl: string = file.path
-        if (mediaUrl.includes(".mp4")) {
-            mediaUrl = "../../../../public/play_button_gray_bg.jpg"
-        }
-        return imageComponent(mediaUrl, index)
+        return imageComponent(src, index)
     });
-
 
     return (
         <Modal
@@ -109,7 +102,7 @@ const ApprovalProductFormModal = ({ opened, setOpened, pendingProduct }: ReportF
                 <Space h="xs" />
                 <Input
                     placeholder="Type here the product name"
-                    {...form.getInputProps('description')}
+                    {...form.getInputProps('name')}
                 />
                 <Space h="xl" />
                 <Title
@@ -158,7 +151,7 @@ const ApprovalProductFormModal = ({ opened, setOpened, pendingProduct }: ReportF
                     <Dropzone
                         accept={[...IMAGE_MIME_TYPE, 'video/mp4']}
                         onDrop={(mediaToBeAdded) => {
-                            setMedia([...media, ...mediaToBeAdded])
+                            setMedia([...media, ...mediaToBeAdded.map((item) => item.path).filter((path): path is string => path !== undefined)])
                         }}
                     >
                         <Text ta="center">Drop images or videos of the desired product here</Text>
@@ -174,12 +167,12 @@ const ApprovalProductFormModal = ({ opened, setOpened, pendingProduct }: ReportF
                     </Button>
                 </Group>
             </form>
-            {/* <MediaModal
+            <MediaModal
                 opened={mediaModalOpened}
                 setOpened={setMediaModalOpened}
-                mediaUrls={media.map((item) => item.path).filter(Boolean) as string[]}
+                mediaUrls={media}
                 initialSlideIndex={initialSlideIndex}
-            /> */}
+            />
         </Modal>
     )
 }

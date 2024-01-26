@@ -17,10 +17,11 @@ import { useMediaQuery } from "@mantine/hooks"
 import IPendingProductItem from "../../types/pendingProductItemInterface"
 import generatePendingProducts from "../../mock_data/generate_pending_product"
 import classes from './PendingProductList.module.css';
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import MediaModal from "../shared/modal/MediaModal"
 import DeclineProductFormModal from "../form/modal/DeclineProductFormModal"
 import ApprovalProductFormModal from "../form/modal/ApprovalProductFormModal"
+import { ModalFormContext } from "../../helper/context"
 
 
 interface ProductViewProps {
@@ -44,10 +45,12 @@ interface PendingProductAvatarProps {
 
 
 const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
-    const [declineModalOpened, setDeclineModalOpened] = useState<true | false>(false);
-    const [approveModalOpened, setApproveModalOpened] = useState<true | false>(false);
+    const {
+        setDeclineModalOpened,
+        setApproveModalOpened,
+        setSelectedPendingProduct
+    } = useContext(ModalFormContext)
 
-    console.log(pendingProduct.id)
     return (
         <>
             <Center>
@@ -57,7 +60,10 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
                             variant="transparent"
                             color="green"
                             leftSection={<Check weight="bold" size={34} />}
-                            onClick={() => setApproveModalOpened(true)}
+                            onClick={() => {
+                                setApproveModalOpened(true)
+                                setSelectedPendingProduct(pendingProduct)
+                            }}
                         />
                     </div>
                     <div>
@@ -65,13 +71,14 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
                             variant="transparent"
                             color="red"
                             leftSection={<X weight="bold" size={34} />}
-                            onClick={() => setDeclineModalOpened(true)}
+                            onClick={() => {
+                                setDeclineModalOpened(true)
+                                setSelectedPendingProduct(pendingProduct)
+                            }}
                         />
                     </div>
                 </Button.Group>
             </Center>
-            <ApprovalProductFormModal opened={approveModalOpened} setOpened={setApproveModalOpened} pendingProduct={pendingProduct} />
-            <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} />
         </>
     )
 }
@@ -194,15 +201,21 @@ const PendingProductView = ({ product, isPortable }: ProductViewProps) => {
 
 
 const PendingProductList = () => {
-    const pendingProductList = generatePendingProducts()
-
     const [activePage, setPage] = useState(1);
     const isPortable = useMediaQuery(`(max-width: ${em(970)})`);
 
-
+    const [declineModalOpened, setDeclineModalOpened] = useState<true | false>(false);
+    const [approveModalOpened, setApproveModalOpened] = useState<true | false>(false);
+    const [pendingProductList, setPendingProductList] = useState<IPendingProductItem[]>([]);
+    const [selectedPendingProduct, setSelectedPendingProduct] = useState<IPendingProductItem | null>(null)
+    
+    useEffect(() => {
+        const pendingProductList = generatePendingProducts()
+        setPendingProductList(pendingProductList)
+    }, [activePage])
 
     return (
-        <div>
+        <ModalFormContext.Provider value={{ setDeclineModalOpened, setApproveModalOpened, setSelectedPendingProduct }}>
             {pendingProductList.map((product) => {
                 return (
                     <Card withBorder className={classes.card} m={10} key={product.id}>
@@ -213,7 +226,9 @@ const PendingProductList = () => {
             <Center>
                 <Pagination total={pendingProductList.length} value={activePage} onChange={setPage} mt="sm" />
             </Center>
-        </div>
+            <ApprovalProductFormModal opened={approveModalOpened} setOpened={setApproveModalOpened} approvedProduct={selectedPendingProduct} />
+            <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} declinedProduct={selectedPendingProduct} />
+        </ModalFormContext.Provider>
     )
 }
 
