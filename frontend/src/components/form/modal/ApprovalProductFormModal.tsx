@@ -8,39 +8,34 @@ import {
     Image,
     SimpleGrid,
     Input,
-    Tooltip,
-    Modal
+    Modal,
+    Container,
+    Badge,
+    Center
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { useState } from 'react';
+import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { useContext, useEffect, useState } from 'react';
 import IPendingProductItem from '../../../types/pendingProductItemInterface';
 import MediaModal from '../../shared/modal/MediaModal';
+import { ModalFormContext } from '../../../helper/context';
+import { Trash } from '@phosphor-icons/react';
 
 interface ReportFormProps {
     opened: boolean,
     setOpened: any,
-    approvedProduct?: IPendingProductItem | null
+    approvedProduct: IPendingProductItem
 }
-
-// const getFileFromUrlWithPath = async (url: string, name: string, defaultType: string = 'image/jpeg'): Promise<FileWithPath> => {
-//     const response = await fetch(url);
-//     const data = await response.blob();
-
-//     const fileWithPath: FileWithPath = Object.assign(new File([data], name, { type: data.type || defaultType }), { path: url });
-//     return fileWithPath;
-// };
 
 
 const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: ReportFormProps) => {
-    // TODO - FIX chunk-VG3LJI6G.js?v=9eb6630f:2375 Warning: Internal React error: Expected static flag was missing. Please notify the React team. ON CONSOLE
-    if (!approvedProduct) {
-        return <></>
-    }
+    const { setSelectedPendingProduct } = useContext(ModalFormContext)
 
     const [mediaModalOpened, setMediaModalOpened] = useState<boolean>(false)
     const [initialSlideIndex, setInitialSlideIndex] = useState<number>(0)
-
+    const [allMediaUrls, setAllMediaUrls] = useState<string[]>([])
+    const [oldMedia, setOldMedia] = useState<string[]>(approvedProduct.media);
+    const [newMedia, setNewMedia] = useState<FileWithPath[]>([]);
 
 
     const form = useForm({
@@ -51,41 +46,58 @@ const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: Report
         },
     });
 
-    const [media, setMedia] = useState<string[]>(approvedProduct.media);
 
-    const removeMedia = (indexToRemove: number) => {
-        setMedia(media.filter((_, index) => index !== indexToRemove))
+    const removeMedia = (mediaIndex: number) => {
+        setOldMedia(oldMedia.filter((_, index) => index !== mediaIndex))
+        setNewMedia(newMedia.filter((_, index) => oldMedia.length + index !== mediaIndex))
+        setAllMediaUrls(allMediaUrls.filter((_, index) => index !== mediaIndex))
     }
 
     const imageComponent = (src: string, index: number) => {
         return (
-            <Tooltip label="Press the scroll button to remove the media" key={index}>
+            <Container key={index}>
                 <Image
-                    key={index}
                     src={src}
                     onClick={() => {
                         setMediaModalOpened(true)
                         setInitialSlideIndex(index)
                     }}
-                    // TODO - FIND WAY TO DELETE THE IMAGE, ADD SOME CLOSE 
-                    onScrollCapture={() => removeMedia(index)}
                     style={{ cursor: "pointer", aspectRatio: "4/3" }}
                 />
-            </Tooltip>
+                <Center>
+                    <Badge
+                        leftSection={<Trash size={15} />}
+                        color="red"
+                        mt={5}
+                        onClick={() => removeMedia(index)}
+                        style={{ cursor: "pointer" }}
+                    >
+                        Remove
+                    </Badge>
+                </Center>
+            </Container>
         )
     }
 
-    const previews = media.map((src, index) => {
+
+    const allMediaPreviews = allMediaUrls.map((src, index) => {
         if (src.includes(".mp4")) {
             src = "../../../../public/play_button_gray_bg.jpg"
         }
         return imageComponent(src, index)
-    });
+    })
+
+    useEffect(() => {
+        setAllMediaUrls([...oldMedia, ...newMedia.map(file => URL.createObjectURL(file))])
+    }, [oldMedia, newMedia])
 
     return (
         <Modal
             opened={opened}
-            onClose={() => setOpened(false)}
+            onClose={() => {
+                setSelectedPendingProduct(null)
+                setOpened(false)
+            }}
             size="xl"
             title="If needed, you can edit the product information!"
             centered
@@ -151,13 +163,13 @@ const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: Report
                     <Dropzone
                         accept={[...IMAGE_MIME_TYPE, 'video/mp4']}
                         onDrop={(mediaToBeAdded) => {
-                            setMedia([...media, ...mediaToBeAdded.map((item) => item.path).filter((path): path is string => path !== undefined)])
+                            setNewMedia([...newMedia, ...mediaToBeAdded])
                         }}
                     >
                         <Text ta="center">Drop images or videos of the desired product here</Text>
                     </Dropzone>
-                    <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                        {previews}
+                    <SimpleGrid cols={{ base: 1, sm: 4 }} mt={allMediaPreviews.length > 0 ? 'xl' : 0}>
+                        {allMediaPreviews}
                     </SimpleGrid>
                 </div>
 
@@ -170,7 +182,7 @@ const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: Report
             <MediaModal
                 opened={mediaModalOpened}
                 setOpened={setMediaModalOpened}
-                mediaUrls={media}
+                mediaUrls={allMediaUrls}
                 initialSlideIndex={initialSlideIndex}
             />
         </Modal>

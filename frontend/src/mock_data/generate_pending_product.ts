@@ -11,7 +11,7 @@ const generatePendingProduct = (): IPendingProductItem => {
         category: faker.commerce.department(),
         media: [
             ...Array.from({ length: faker.number.int({ min: 0, max: 3 }) }, () => faker.image.url()),
-            ...Array.from({ length: faker.number.int({ min: 0, max: 2 }) }, () => "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4")
+            ...Array.from({ length: faker.number.int({ min: 0, max: 1 }) }, () => "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4") // each video must have their own id
         ]
     };
 

@@ -50,7 +50,6 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
         setApproveModalOpened,
         setSelectedPendingProduct
     } = useContext(ModalFormContext)
-
     return (
         <>
             <Center>
@@ -61,8 +60,8 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
                             color="green"
                             leftSection={<Check weight="bold" size={34} />}
                             onClick={() => {
-                                setApproveModalOpened(true)
                                 setSelectedPendingProduct(pendingProduct)
+                                setApproveModalOpened(true)
                             }}
                         />
                     </div>
@@ -72,8 +71,8 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
                             color="red"
                             leftSection={<X weight="bold" size={34} />}
                             onClick={() => {
-                                setDeclineModalOpened(true)
                                 setSelectedPendingProduct(pendingProduct)
+                                setDeclineModalOpened(true)
                             }}
                         />
                     </div>
@@ -213,7 +212,6 @@ const PendingProductList = () => {
         const pendingProductList = generatePendingProducts()
         setPendingProductList(pendingProductList)
     }, [activePage])
-
     return (
         <ModalFormContext.Provider value={{ setDeclineModalOpened, setApproveModalOpened, setSelectedPendingProduct }}>
             {pendingProductList.map((product) => {
@@ -226,8 +224,16 @@ const PendingProductList = () => {
             <Center>
                 <Pagination total={pendingProductList.length} value={activePage} onChange={setPage} mt="sm" />
             </Center>
-            <ApprovalProductFormModal opened={approveModalOpened} setOpened={setApproveModalOpened} approvedProduct={selectedPendingProduct} />
-            <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} declinedProduct={selectedPendingProduct} />
+            {
+                selectedPendingProduct 
+                ? <ApprovalProductFormModal opened={approveModalOpened} setOpened={setApproveModalOpened} approvedProduct={selectedPendingProduct} />
+                : null
+            }
+            {
+                selectedPendingProduct
+                ? <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} declinedProduct={selectedPendingProduct} />
+                : null
+            }
         </ModalFormContext.Provider>
     )
 }

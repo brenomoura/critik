@@ -7,14 +7,17 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import IPendingProductItem from '../../../types/pendingProductItemInterface';
+import { ModalFormContext } from '../../../helper/context';
+import { useContext } from 'react';
 
 interface ReportFormProps {
     opened: boolean,
     setOpened: any,
-    declinedProduct?: IPendingProductItem | null
+    declinedProduct: IPendingProductItem
 }
 
 const DeclineProductFormModal = ({ opened, setOpened, declinedProduct }: ReportFormProps) => {
+    const { setSelectedPendingProduct } = useContext(ModalFormContext)
 
     const form = useForm({
         initialValues: {
@@ -25,7 +28,10 @@ const DeclineProductFormModal = ({ opened, setOpened, declinedProduct }: ReportF
     return (
         <Modal
             opened={opened}
-            onClose={() => setOpened(false)}
+            onClose={() => {
+                setSelectedPendingProduct(null)
+                setOpened(false)
+            }}
             size="xl"
             centered
         >
