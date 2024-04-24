@@ -22,9 +22,9 @@ import { ModalFormContext } from '../../../helper/context';
 import { Trash } from '@phosphor-icons/react';
 
 interface ReportFormProps {
-    opened: boolean,
-    setOpened: any,
-    approvedProduct: IPendingProductItem
+    opened: boolean;
+    setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+    approvedProduct: IPendingProductItem;
 }
 
 

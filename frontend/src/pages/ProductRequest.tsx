@@ -1,14 +1,12 @@
 import SearchBar from "../components/shared/SearchBar"
-import ProductRequestForm from "../components/form/RequestProductForm"
+import ProductForm from "../components/form/ProductForm"
 
 const ProductRequest = () => {
-
-
 
     return (
         <div>
             <SearchBar />
-            <ProductRequestForm />
+            <ProductForm url="request product" />
         </div>
     )
 }
