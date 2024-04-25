@@ -1,12 +1,14 @@
+import { Container } from "@mantine/core"
 import ReportList from "../components/admin/ReportList"
-import FilterAndSortBar from "../components/shared/FilterAndSortBar"
+import SearchBar from "../components/shared/SearchBar"
 
 const ViolationReports = () => {
     return (
         <div>
-            ViolationReports
-            <FilterAndSortBar />
-            <ReportList />
+            <SearchBar />
+            <Container>
+                <ReportList />
+            </Container>
         </div>
     )
 }

@@ -21,7 +21,7 @@ import { useContext, useEffect, useState } from "react"
 import MediaModal from "../shared/modal/MediaModal"
 import DeclineProductFormModal from "../form/modal/DeclineProductFormModal"
 import ApprovalProductFormModal from "../form/modal/ApprovalProductFormModal"
-import { ModalFormContext } from "../../helper/context"
+import { ProductModalFormContext } from "../../helper/context"
 
 
 interface ProductViewProps {
@@ -49,7 +49,7 @@ const ApprovalSectionComponent = ({ pendingProduct }: PendingProductProps) => {
         setDeclineModalOpened,
         setApproveModalOpened,
         setSelectedPendingProduct
-    } = useContext(ModalFormContext)
+    } = useContext(ProductModalFormContext)
     return (
         <>
             <Center>
@@ -213,7 +213,7 @@ const PendingProductList = () => {
         setPendingProductList(pendingProductList)
     }, [activePage])
     return (
-        <ModalFormContext.Provider value={{ setDeclineModalOpened, setApproveModalOpened, setSelectedPendingProduct }}>
+        <ProductModalFormContext.Provider value={{ setDeclineModalOpened, setApproveModalOpened, setSelectedPendingProduct }}>
             {pendingProductList.map((product) => {
                 return (
                     <Card withBorder className={classes.card} m={10} key={product.id}>
@@ -234,7 +234,7 @@ const PendingProductList = () => {
                 ? <DeclineProductFormModal opened={declineModalOpened} setOpened={setDeclineModalOpened} declinedProduct={selectedPendingProduct} />
                 : null
             }
-        </ModalFormContext.Provider>
+        </ProductModalFormContext.Provider>
     )
 }
 
