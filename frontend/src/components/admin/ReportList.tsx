@@ -114,10 +114,7 @@ const DesktopGridView = ({ report }: GridViewProps) => {
             <Grid.Col span={6}>
                 <Stack gap={0}>
                     <Text fz="xl">
-                        {report.name}
-                    </Text>
-                    <Text fz="sm" c="dimmed" fw={500}>
-                        {report.category}
+                        {report.username}
                     </Text>
                     <Text fz="sm">
                         {report.description}
@@ -173,10 +170,7 @@ const PortableGridView = ({ report }: GridViewProps) => {
             {portableView()}
             <Stack gap={0} mx={10} mb={10}>
                 <Text fz="xl">
-                    {report.name}
-                </Text>
-                <Text fz="sm" c="dimmed" fw={500}>
-                    {report.category}
+                    {report.username}
                 </Text>
                 <Text fz="sm">
                     {report.description}

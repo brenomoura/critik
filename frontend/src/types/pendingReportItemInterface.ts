@@ -1,9 +1,8 @@
 interface IPendingReportItem {
     id: number
-    name: string,
+    username: string,
     description: string
     avatar: string,
-    category: string,
     media: string[]
 }
 

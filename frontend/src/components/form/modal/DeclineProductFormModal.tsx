@@ -7,7 +7,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import IPendingProductItem from '../../../types/pendingProductItemInterface';
-import { ModalFormContext } from '../../../helper/context';
+import { ProductModalFormContext } from '../../../helper/context';
 import { useContext } from 'react';
 
 interface ReportFormProps {
@@ -17,7 +17,7 @@ interface ReportFormProps {
 }
 
 const DeclineProductFormModal = ({ opened, setOpened, declinedProduct }: ReportFormProps) => {
-    const { setSelectedPendingProduct } = useContext(ModalFormContext)
+    const { setSelectedPendingProduct } = useContext(ProductModalFormContext)
 
     const form = useForm({
         initialValues: {

@@ -17,7 +17,7 @@ import { useForm } from '@mantine/form';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useContext, useEffect, useState } from 'react';
 import MediaModal from '../../shared/modal/MediaModal';
-import { ModalFormContext } from '../../../helper/context';
+import { ReportModalFormContext } from '../../../helper/context';
 import { Trash } from '@phosphor-icons/react';
 import IPendingReportItem from '../../../types/pendingReportItemInterface';
 
@@ -29,7 +29,7 @@ interface ReportFormProps {
 
 
 const ApprovalReportFormModal = ({ opened, setOpened, approvedReport }: ReportFormProps) => {
-    const { setSelectedPendingReport } = useContext(ModalFormContext)
+    const { setSelectedPendingReport } = useContext(ReportModalFormContext)
 
     const [mediaModalOpened, setMediaModalOpened] = useState<boolean>(false)
     const [initialSlideIndex, setInitialSlideIndex] = useState<number>(0)
@@ -40,8 +40,7 @@ const ApprovalReportFormModal = ({ opened, setOpened, approvedReport }: ReportFo
 
     const form = useForm({
         initialValues: {
-            name: approvedReport.name,
-            category: approvedReport.category,
+            name: approvedReport.username,
             description: approvedReport.description,
         },
     });

@@ -18,7 +18,7 @@ import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useContext, useEffect, useState } from 'react';
 import IPendingProductItem from '../../../types/pendingProductItemInterface';
 import MediaModal from '../../shared/modal/MediaModal';
-import { ModalFormContext } from '../../../helper/context';
+import { ProductModalFormContext } from '../../../helper/context';
 import { Trash } from '@phosphor-icons/react';
 
 interface ReportFormProps {
@@ -29,7 +29,7 @@ interface ReportFormProps {
 
 
 const ApprovalProductFormModal = ({ opened, setOpened, approvedProduct }: ReportFormProps) => {
-    const { setSelectedPendingProduct } = useContext(ModalFormContext)
+    const { setSelectedPendingProduct } = useContext(ProductModalFormContext)
 
     const [mediaModalOpened, setMediaModalOpened] = useState<boolean>(false)
     const [initialSlideIndex, setInitialSlideIndex] = useState<number>(0)
